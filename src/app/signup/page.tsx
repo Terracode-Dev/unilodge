@@ -22,7 +22,7 @@ const SignupPage: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div>
-          <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">Sign up for an account</h2>
+          <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">Create an UNILODGE account</h2>
         </div>
         <form className="mt-8" onSubmit={handleSignup}>
           <input type="hidden" name="remember" value="true" />
