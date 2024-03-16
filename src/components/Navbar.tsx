@@ -31,7 +31,7 @@ function Navbar() {
                     <Link href="/login" passHref legacyBehavior>
                       <a className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Login</a>
                     </Link>
-                    <Link href="/login" passHref legacyBehavior>
+                    <Link href="/signup" passHref legacyBehavior>
                       <a className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Sign Up</a>
                     </Link>
                     {/* Add more dropdown items as needed */}
