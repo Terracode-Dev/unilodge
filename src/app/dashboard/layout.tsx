@@ -12,7 +12,7 @@ export default function dashLayout({
     student: React.ReactNode,
     warden: React.ReactNode
 }) {
-    const role = 'warden';
+    const role = 'admin';
     return (
         <>
             {role === 'admin' ? admin :
