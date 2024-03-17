@@ -1,10 +1,14 @@
 import React from 'react'
+import AdminLayout from './layout'
 
 type Props = {}
 
 const dashAdmin = () => {
   return (
-    <div>dashAdmin</div>
+    <AdminLayout>
+      <div>dashAdmin</div>
+    </AdminLayout>
+    
   )
 }
 
