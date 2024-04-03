@@ -1,0 +1,16 @@
+{
+  "name": "unilodge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "if-env TYPE=server && (cd backend && npm install) || (cd frontend && npm install)",
+    "server": "node ./backend/server.js",
+    "client": "cd frontend && npm run dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "if-env": "^1.0.4"
+  }
+}
