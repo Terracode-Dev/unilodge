@@ -13,11 +13,13 @@ app.use(bodyParser.json());
 const landlordRoutes = require('./routes/landlordRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const wardenRoutes = require('./routes/wardenRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // Route handlers
 app.use('/landlords', landlordRoutes);
 app.use('/students', studentRoutes);
 app.use('/wardens', wardenRoutes);
+app.use('/login', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello, world!');
