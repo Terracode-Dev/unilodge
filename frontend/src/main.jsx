@@ -9,6 +9,7 @@ import HomePage from './pages/Home.jsx';
 import NavigationBar from './components/Navbar.jsx';
 import SigninPage from './pages/Signin.jsx';
 import ErrorPage from './pages/Error_page.jsx';
+import LandlordDash from './pages/LandlordDash.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <SigninPage />,
   },
+  {
+    path: "/landlord",
+    element: <LandlordDash />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
