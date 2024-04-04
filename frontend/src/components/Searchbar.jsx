@@ -23,7 +23,7 @@ const SearchBar = ({ placeholder, onSearch }) => {
             onChange={(e) => onSearch({ query: e.target.value })}
           />
           <select
-            className="md:ml-2 rounded-full w-1/2 py-2 px-4 text-gray-700 leading-tight focus:outline-none"
+            className="md:ml-2 rounded-full w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none"
             value={priceRange}
             onChange={handlePriceChange}
           >
@@ -34,7 +34,7 @@ const SearchBar = ({ placeholder, onSearch }) => {
           </select>
           <button
             type="submit"
-            className="md:ml-2 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-400 focus:outline-none flex items-center justify-center"
+            className="md:ml-2 bg-blue-500 text-white rounded-full px-6 py-2 m-2 hover:bg-blue-400 focus:outline-none flex items-center justify-center"
           >
             Search
           </button>
