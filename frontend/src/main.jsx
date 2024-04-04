@@ -10,6 +10,7 @@ import NavigationBar from './components/Navbar.jsx';
 import SigninPage from './pages/Signin.jsx';
 import ErrorPage from './pages/Error_page.jsx';
 import LandlordDash from './pages/LandlordDash.jsx';
+import StudentDash from './pages/StudentDash.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/landlord",
     element: <LandlordDash />,
+  },
+  {
+    path: '/student',
+    element: <StudentDash />,
   }
 ]);
 

@@ -2,12 +2,18 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Create express app
 const app = express();
 
 // Parse json bodies
 app.use(bodyParser.json());
+app.use(cors(
+    {
+        origin: 'http://localhost:5173'
+    }
+))
 
 // Import routes
 const landlordRoutes = require('./routes/landlordRoutes');

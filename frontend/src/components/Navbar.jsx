@@ -1,7 +1,13 @@
 import React from 'react';
+import { isAuthenticated, logout } from '../utils/authService';
 
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = '/login';
+  }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -17,7 +23,11 @@ const NavigationBar = () => {
           <a href="/" className="text-gray-300 hover:text-white mr-4">Home</a>
           <a href="#" className="text-gray-300 hover:text-white mr-4">About</a>
           <a href="#" className="text-gray-300 hover:text-white mr-4">Contact</a>
-          <a href="/login" className="text-gray-300 hover:text-white mr-4">Login</a>
+          {isAuthenticated()? 
+            <button onClick={handleLogout} className="text-gray-300 hover:text-white mr-4">Logout</button> :
+            <a href="/login" className="text-gray-300 hover:text-white mr-4">Login</a>
+          }
+          
           
         </div>
         <div className="flex items-center md:hidden">
@@ -37,7 +47,9 @@ const NavigationBar = () => {
           <a href="/" className="block text-gray-300 hover:text-white mb-2">Home</a>
           <a href="#" className="block text-gray-300 hover:text-white mb-2">About</a>
           <a href="#" className="block text-gray-300 hover:text-white mb-2">Contact</a>
-          <a href="/login" className="block text-gray-300 hover:text-white mb-2">Login</a>
+          {isAuthenticated()?
+            <button onClick={handleLogout} className="block text-gray-300 hover:text-white mb-2">Logout</button> :
+            <a href="/login" className="block text-gray-300 hover:text-white mb-2">Login</a>}
         </div>
       </div>
     </nav>
