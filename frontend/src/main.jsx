@@ -12,6 +12,9 @@ import ErrorPage from './pages/Error_page.jsx';
 import LandlordDash from './pages/LandlordDash.jsx';
 import StudentDash from './pages/StudentDash.jsx';
 import Blog from './pages/Blog.jsx';
+import AdminDash from './pages/AdminDash.jsx';
+import WardenDash from './pages/WardenDash.jsx';
+import MoreDetails from './pages/MoreDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,18 @@ const router = createBrowserRouter([
   {
     path: "/blog",
     element: <Blog />,
+  },
+  {
+    path: "/admin",
+    element: <AdminDash/>,
+  },
+  {
+    path: "/warden",
+    element: <WardenDash/>,
+  },
+  {
+    path: "/more",
+    element: <MoreDetails/>,
   }
 ]);
 

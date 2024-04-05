@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import MapContainer from '../components/Map';
+// import MapContainer from '../components/Map';
 import PropertyCard from '../components/PropertyCardll';
 import ReservationsCard from '../components/ReservationsCard';
 
@@ -49,6 +49,33 @@ const LandlordDash = () => {
 };
 
 const AddProperty = () => {
+
+  useEffect(() => {
+    const previewBeforeUpload = (id) => {
+      const inputElement = document.querySelector(`#${id}`);
+      if (!inputElement) return;
+      
+      inputElement.addEventListener("change", function(e) {
+        if (e.target.files.length === 0) {
+          return;
+        }
+        const file = e.target.files[0];
+        const url = URL.createObjectURL(file);
+        const previewDivElement = document.querySelector(`#${id}-preview div`);
+        if (previewDivElement) {
+          previewDivElement.innerText = file.name;
+        }
+        const previewImgElement = document.querySelector(`#${id}-preview img`);
+        if (previewImgElement) {
+          previewImgElement.src = url;
+        }
+      });
+    };
+    
+    previewBeforeUpload("picture");
+    
+  }, []);
+
   const [formData, setFormData] = useState({
     propertyName: '',
     address: '',
@@ -97,18 +124,26 @@ const AddProperty = () => {
             <input type="number" id="price" name="price" value={formData.price} onChange={handleInputChange} className="w-full border rounded p-2" />
           </div>
           
-          <div className="mb-4">
-            <label htmlFor="picture" className="block text-gray-700 font-bold mb-2">Picture</label>
-            <input type="file" id="picture" name="picture" accept="image/*" onChange={handleInputChange} className="w-full border rounded p-2" />
+          
+          
+
+          <div className="relative p-3">
+            <input type="file" id="picture" accept="image/*" name="picture" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
+            <label for="picture" id="picture-preview" class="relative block w-full h-full">
+              <img src="https://bit.ly/3ubuq5o" alt="" class="w-[150px] h-[100px] object-cover"/>
+              <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20 text-white font-semibold w-[150px]">
+                <span>+</span>
+              </div>
+            </label>
           </div>
           
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Property</button>
         </form>
       </div>
       
-      <div className="h-full bg-gray-200 rounded-lg">
+      {/* <div className="h-full bg-gray-200 rounded-lg">
         <MapContainer />
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -180,12 +215,12 @@ const Properties = () => {
           <PropertyCard key={property.id} property={property} />
         ))} */}
 
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending' }} />
+        <PropertyCard property={{ pictureUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved' }} />
+        <PropertyCard property={{ pictureUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected' }} />
+        <PropertyCard property={{ pictureUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending' }} />
+        <PropertyCard property={{ pictureUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved' }} />
+        <PropertyCard property={{ pictureUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected' }} />
+        <PropertyCard property={{ pictureUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending' }} />
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/Searchbar';
-import Map from '../components/Map';
+// import Map from '../components/Map';
 import PropertyCard from '../components/PropertyCardStud';
+import MoreDetails from './MoreDetails';
 
 const StudentDash = () => {
     const [properties, setProperties] = useState([]);
@@ -42,14 +43,14 @@ const StudentDash = () => {
                                 imageURL={property.imageURL}
                             />
                         ))} */}
-                        <PropertyCard title="Property 1" description="Description 1" imageURL="https://via.placeholder.com/300" />
-                        <PropertyCard title="Property 2" description="Description 2" imageURL="https://via.placeholder.com/300" />
-                        <PropertyCard title="Property 3" description="Description 3" imageURL="https://via.placeholder.com/300" />
+                        <PropertyCard title="Property 1" description="Description 1" imageURL="https://via.placeholder.com/300" link="../more" />
+                        <PropertyCard title="Property 2" description="Description 2" imageURL="https://via.placeholder.com/300" link="../more"/>
+                        <PropertyCard title="Property 3" description="Description 3" imageURL="https://via.placeholder.com/300" link="../more"/>
                     </div>
                 </div>
                 <div className="w-full md:w-1/2 bg-gray-500">
                     {/* Integrated map */}
-                    <Map searchQuery={searchQuery} priceRange={priceRange} />
+                    {/* <Map searchQuery={searchQuery} priceRange={priceRange} /> */}
                 </div>
             </div>
         </div>
