@@ -1,29 +1,84 @@
-const pool = require("../../db");
-
-const searchPropDetail = async (propertyID) => {
+async function getpendingpropprop(lid) {
     let client;
     try {
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // Query to retrieve data from property table based on propertyID
-        const queryText = 'SELECT * FROM property WHERE propid = $1';
-        const { rows } = await client.query(queryText, [propertyID]);
+        const queryText = `
+            SELECT *
+            FROM property
+            WHERE propid NOT IN (
+                SELECT propid
+                FROM prop_statu
+                WHERE lid = $1
+            )
+        `;
+        const { rows } = await client.query(queryText, [lid]);
 
-        // Commit the transaction
         await client.query('COMMIT');
 
-        // Return the retrieved rows
         return rows;
     } catch (error) {
-        // If there's an error, rollback the transaction and throw the error
         if (client) await client.query('ROLLBACK');
         throw error;
     } finally {
-        // Release the client back to the pool
         if (client) client.release();
     }
-};
-async function Approvedprop(){}
-async function RejectProp(){}
-async function PendingProp(){}
+}
+
+async function getrejectedprop(lid) {
+    let client;
+    try {
+        client = await pool.connect();
+        await client.query('BEGIN');
+
+        // Query to select all property details where status is 'false' in prop_statu table
+        const queryText = `
+            SELECT property.*
+            FROM property
+            INNER JOIN prop_statu ON property.propid = prop_statu.propid
+            WHERE prop_statu.status = 'false' && property.lid = $1
+        `;
+        const { rows } = await client.query(queryText,[lid]);
+
+        await client.query('COMMIT');
+
+        return rows;
+    } catch (error) {
+        if (client) await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        if (client) client.release();
+    }
+}
+
+
+async function getapprovedprop(lid) {
+    let client;
+    try {
+        client = await pool.connect();
+        await client.query('BEGIN');
+
+        // Query to select all property details where status is 'true' in prop_statu table
+        const queryText = `
+            SELECT property.*
+            FROM property
+            INNER JOIN prop_statu ON property.propid = prop_statu.propid
+            WHERE prop_statu.status = 'true' && property.lid = $1
+        `;
+        const { rows } = await client.query(queryText,[lid]);
+
+        await client.query('COMMIT');
+
+        return rows;
+    } catch (error) {
+        if (client) await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        if (client) client.release();
+    }
+}
+
+async function allAccReserv(){}
+async function allRejReserv(){}
+async function allPendReser(){}

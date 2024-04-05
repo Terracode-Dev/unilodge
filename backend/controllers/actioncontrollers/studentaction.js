@@ -34,6 +34,10 @@ async function CancelReservation(reservationid){
     }
 }
 
+async function AccReserv(){}
+async function RejReserv(){}
+async function PendReser(){}
+
 module.exports = {
     AddReservation,
     CancelReservation
