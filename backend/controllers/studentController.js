@@ -1,6 +1,6 @@
 const pool = require('../db');
 
-async function createStudent(name, username, email, password){
+async function createStudent(name, username, email, password, contact){
     const client = await pool.connect();
 
     try {
@@ -8,8 +8,8 @@ async function createStudent(name, username, email, password){
 
         //INSERT INTO users
         const newUser = await client.query(
-            'INSERT INTO users (name, username, email, password) VALUES ($1, $2, $3, $4) RETURNING *',
-            [name, username, email, password]
+            'INSERT INTO users (name, username, email, password,contact) VALUES ($1, $2, $3, $4,$5) RETURNING *',
+            [name, username, email, password,contact]
         )
         //Get user id
         const userId = newUser.rows[0].userid;

@@ -26,7 +26,10 @@ const loginUser = async (req, res) => {
                 query = 'SELECT users.userid, users.username, users.password, warden.wardenid AS wardenid FROM users LEFT JOIN warden ON users.userid = warden.userid WHERE users.username = $1';
                 userRole = 'warden';
                 break;
-            
+            case 'admin':
+                query = 'SELECT users.userid, users.username, users.password, admin.adminid AS adminid FROM users LEFT JOIN admin ON users.userid = admin.userid WHERE users.username = $1';
+                userRole = 'admin';
+                break;
             default:
                 return res.status(400).json({message: 'Invalid user type'});  
         }

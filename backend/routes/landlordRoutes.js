@@ -4,7 +4,7 @@ const landlordController = require('../controllers/landlordController');
 const bcrypt = require('bcrypt');
 
 router.post('/signup',async (req,res) => {
-    const {name, username, email, password} = req.body;
+    const {name, username, email, password,contact} = req.body;
 
     // Generate a salt
     const salt = await bcrypt.genSalt(10);
@@ -13,7 +13,7 @@ router.post('/signup',async (req,res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     
     try {
-        const newLandlord = await landlordController.createLandlord(name, username, email, hashedPassword);
+        const newLandlord = await landlordController.createLandlord(name, username, email, hashedPassword,contact);
         res.json(newLandlord);
         res.status(201).end();
     } catch (error) {

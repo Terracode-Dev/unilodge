@@ -4,7 +4,7 @@ const wardenController = require('../controllers/wardenController');
 const bcrypt = require('bcrypt');
 
 router.post('/signup',async (req,res) => {
-    const {name, username, email, password} = req.body;
+    const {name, username, email, password,contact} = req.body;
 
     // Generate a salt
     const salt = await bcrypt.genSalt(10);
@@ -12,7 +12,7 @@ router.post('/signup',async (req,res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     try {
-        const newWarden  = await wardenController.createWarden(name, username, email, hashedPassword);
+        const newWarden  = await wardenController.createWarden(name, username, email, hashedPassword,contact);
         res.json(newWarden);
         res.status(201).end();
     } catch (error) {

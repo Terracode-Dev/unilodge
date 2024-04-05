@@ -20,11 +20,13 @@ const landlordRoutes = require('./routes/landlordRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const wardenRoutes = require('./routes/wardenRoutes');
 const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Route handlers
 app.use('/landlords', landlordRoutes);
 app.use('/students', studentRoutes);
 app.use('/wardens', wardenRoutes);
+app.use('/admins', adminRoutes);
 app.use('/login', authRoutes);
 
 app.get('/', (req, res) => {
