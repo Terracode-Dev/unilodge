@@ -9,17 +9,56 @@ async function createProperty(price, address, lat, lng, picture, name, lid,discr
             [price,address,lat,lng,picture,name,lid,discription]
         );
         await client.query('COMMIT');
-        
+        return 'Added Successfully';
     } catch (error) {
         await client.query('ROLLBACK');
         throw error;
+    }finally{
+        client.release();
     }
     
 }
 
 //edit property 
-async function edtiPropety(){
-
+async function edtiPropety(price, address, lat, lng, picture, name, lid,discription){
+    try {
+        const client = await pool.connect();
+        await client.query('BEGIN');
+        await client.query(
+            'UPDATE property SET price = $1, address = $2, lat = $3, lng = $4, picture = $5, name = $6, lid = $7,discription = $8',
+            [price,address,lat,lng,picture,name,lid,discription]
+        );
+        await client.query('COMMIT');
+        return 'Edited successfully';
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    }finally{
+        client.release();
+    }
 }
 
 //delete property
+async function deteleProperty(propertyid){
+    try {
+        const client = await pool.connect();
+        await client.query('BEGIN');
+
+        await   client.query(
+            'DELETE FROM property WHERE propid = $1'),
+            [propertyid]
+        await client.query('COMMIT');
+        return 'Deleted successfully';
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    }finally{
+        client.release();
+    }
+}
+
+module.exports = {
+    createProperty,
+    edtiPropety,
+    deteleProperty
+}
