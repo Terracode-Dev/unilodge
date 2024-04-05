@@ -1,12 +1,12 @@
 // 'use client' should be at the top if using Next.js 13
 'use client';
 
-import MapTools from '@/app/Tools/mapShow';
+import { MapShower, PinSelectMap } from '@/app/Tools/mapShow';
 import { useEffect } from 'react';
 
 export default function Map() {
 
-  const mapPart = new MapTools();
+  const mapPart = new MapShower();
 
   useEffect(() => {
     
