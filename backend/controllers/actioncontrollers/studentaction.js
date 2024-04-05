@@ -33,3 +33,8 @@ async function CancelReservation(reservationid){
         throw error;
     }
 }
+
+module.exports = {
+    AddReservation,
+    CancelReservation
+}
