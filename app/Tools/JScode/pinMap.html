@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pin Select Map Example</title>
+  <style>
+    #map { height: 400px; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="./maps.js"></script>
+<script>
+  const pinSelectMap = new PinSelectMap();
+  document.addEventListener('DOMContentLoaded', function() {
+    const mapDiv = document.getElementById('map');
+    if (mapDiv) {
+      pinSelectMap.start(mapDiv);
+    }
+  });
+</script>
+</body>
+</html>

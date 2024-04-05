@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map Shower Example</title>
+  <style>
+    #map { height: 400px; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="./maps.js"></script>
+<script>
+  const mapShower = new MapShower();
+  document.addEventListener('DOMContentLoaded', function() {
+    const mapDiv = document.getElementById('map');
+    if (mapDiv) {
+      mapShower.start(mapDiv);
+      // Example marker
+      const marker = {
+        name: "Example Marker",
+        func: () => { alert("Marker clicked!"); },
+        coordinates: { lat: -34.397, long: 150.644 },
+      };
+      mapShower.addMarker(marker);
+    }
+  });
+</script>
+</body>
+</html>
