@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react';
 import MapContainer from '../components/Map';
 import PropertyCard from '../components/PropertyCardll';
 import ReservationsCard from '../components/ReservationsCard';
+import { isAuthenticated } from '../utils/authService';
+import UnauthorizedPage from './UnAuth';
 
 const LandlordDash = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -11,6 +13,7 @@ const LandlordDash = () => {
   };
 
   return (
+    isAuthenticated()?
     <div className=" m-6">
       <div className="flex mb-4">
         <button
@@ -44,6 +47,8 @@ const LandlordDash = () => {
         {activeTab === 'tab2' && <Reservations />}
         {activeTab === 'tab3' && <Properties />}
       </div>
+    </div>: <div>
+      <UnauthorizedPage />
     </div>
   );
 };

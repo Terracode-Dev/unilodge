@@ -12,6 +12,8 @@ import ErrorPage from './pages/Error_page.jsx';
 import LandlordDash from './pages/LandlordDash.jsx';
 import StudentDash from './pages/StudentDash.jsx';
 import Blog from './pages/Blog.jsx';
+import AdminDash from './pages/AdminDash.jsx';
+import SignupPage from './pages/Signup.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
     element: <SigninPage />,
   },
   {
+    path: "/signup",
+    element: <SignupPage />,
+  },
+  {
     path: "/landlord",
     element: <LandlordDash />,
   },
@@ -34,7 +40,11 @@ const router = createBrowserRouter([
   {
     path: "/blog",
     element: <Blog />,
-  }
+  },
+  {
+    path: "/admin",
+    element: <AdminDash />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

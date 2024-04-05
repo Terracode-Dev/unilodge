@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { login } from '../utils/authService' 
+import { login } from '../utils/authService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const SigninPage = () => {
   const [username, setUsername] = useState('');
@@ -48,6 +50,10 @@ const SigninPage = () => {
         
       }
 
+      if (response.status === 404){
+        toast.error('Invalid credentials or user type');
+      }
+
       // TODO redirect to the appropriate page based on the selected role
     } catch (error) {
       console.error('An error occurred', error);
@@ -58,6 +64,7 @@ const SigninPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <ToastContainer />
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to Unilodge</h2>

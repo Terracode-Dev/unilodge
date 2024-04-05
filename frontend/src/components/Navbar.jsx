@@ -26,7 +26,12 @@ const NavigationBar = () => {
           <a href="/blog" className="text-gray-300 hover:text-white font-semibold mr-4">Blog</a>
           {isAuthenticated()? 
             <button onClick={handleLogout} className="text-gray-300 font-semibold hover:text-white mr-4">Logout</button> :
-            <a href="/login" className="text-gray-300 hover:text-white font-semibold mr-4">Login</a>
+            <>
+              <a href="/login" className="text-gray-300 hover:text-white font-semibold mr-4">Login</a>
+              <a href="/signup" className="text-gray-300 hover:text-white font-semibold mr-4">Signup</a>
+            </>
+            
+            
           }
           
           

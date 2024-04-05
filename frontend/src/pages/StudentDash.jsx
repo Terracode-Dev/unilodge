@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/Searchbar';
 import Map from '../components/Map';
 import PropertyCard from '../components/PropertyCardStud';
+import { isAuthenticated } from '../utils/authService';
+import UnauthorizedPage from './UnAuth';
 
 const StudentDash = () => {
     const [properties, setProperties] = useState([]);
@@ -23,6 +25,7 @@ const StudentDash = () => {
     };
 
     return (
+        isAuthenticated()?
         <div className="flex flex-col h-screen">
             {/* Search bar */}
             <div className="bg-gray-200 p-4">
@@ -52,6 +55,8 @@ const StudentDash = () => {
                     <Map searchQuery={searchQuery} priceRange={priceRange} />
                 </div>
             </div>
+        </div>: <div>
+            <UnauthorizedPage />
         </div>
     );
 };

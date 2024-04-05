@@ -1,27 +1,69 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const SignupPage = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('');
-
-  const handleSubmit = (e) => {
+  const [username, setUsername] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your signup logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Selected Role:', selectedRole);
+    try {
+      const response = await fetch('http://localhost:3000/students/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          username,
+          contact: contactNumber
+        })
+      });
+      
+      if (response.ok) {
+        toast.success('Signup successful');
+      } else{
+        toast.error('Signup failed');
+      }
+      const data = await response.json();
+      console.log('Signup successful:', data);
+      window.location.href = '/login';
+      // Add any additional logic here after successful signup
+    } catch (error) {
+      console.error('Signup error:', error.message);
+      // Handle signup error
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
+        <ToastContainer />
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create an account</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create an Unilodge account</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="name" className="sr-only">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
             <div>
               <label htmlFor="email-address" className="sr-only">Email address</label>
               <input
@@ -30,7 +72,7 @@ const SignupPage = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -44,27 +86,39 @@ const SignupPage = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div className="mt-4">
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">Role</label>
-              <select
-                id="role"
-                name="role"
-                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value)}
-              >
-                <option value="">Select a role</option>
-                <option value="role1">Role 1</option>
-                <option value="role2">Role 2</option>
-                <option value="role3">Role 3</option>
-                <option value="role4">Role 4</option>
-              </select>
+            <div>
+              <label htmlFor="username" className="sr-only">Username</label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="contact-number" className="sr-only">Contact Number</label>
+              <input
+                id="contact-number"
+                name="contact-number"
+                type="tel"
+                autoComplete="tel"
+                required
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                placeholder="Contact Number"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+              />
             </div>
           </div>
           <div>
