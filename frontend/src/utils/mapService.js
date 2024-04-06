@@ -66,7 +66,7 @@ class PinSelectMap {
   constructor() {
     this.map = null;
     this.mapDiv = null;
-    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 };
+    this.DefaultcenterPoint = { lat: 6.821350398967625, lng: 80.04151925058318 };
     this.centerMarker = null;
     this.centerPoint = null;
     this.capturedLocation = null;

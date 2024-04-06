@@ -39,8 +39,6 @@ const WardenDash = () => {
   );
 };
 
-
-
 const Reservations = () => {
   const [properties, setProperties] = useState([]);
 
@@ -69,7 +67,7 @@ const Reservations = () => {
         {/* {properties.map(property => (
           <ReservationsCard key={property.id} property={property} />
         ))} */}
-        <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe', link:'../more' }} />
+        <WardenCard property={{ thumbnailUrl:'https://i.ibb.co/x78tmyQ/pic.jpg', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe', link:'../more' }} />
         <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', reservedBy: 'Jane Doe', link:'../more' }} />
         <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', reservedBy: 'John Smith', link:'../more' }} />
         <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', reservedBy: 'Jane Smith', link:'../more' }} />

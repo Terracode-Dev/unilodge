@@ -5,6 +5,10 @@ import ReservationsCard from '../components/ReservationsCard';
 import { isAuthenticated } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
 import { MapShower, PinSelectMap } from '../utils/mapService';
+import { getToken } from '../utils/authService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
+
 
 const LandlordDash = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -58,8 +62,47 @@ const LandlordDash = () => {
 };
 
 const AddProperty = () => {
+  const [userid, setUserId] = useState(null);
 
+  useEffect(()=> {
+    const decodeToken = (token) => {
+      if (!token) return null;
+      try {
+        // Split the token into its three parts (header, payload, signature)
+        const tokenParts = token.split('.');
+        if (tokenParts.length !== 3) return null;
 
+        // Decode the base64-encoded payload (second part of the token)
+        const decodedPayload = atob(tokenParts[1]);
+
+        // Parse the decoded payload to get user ID and other data
+        const { userid } = JSON.parse(decodedPayload);
+
+        return userid;
+      } catch (error) {
+        console.error('Error decoding JWT token:', error.message);
+        return null;
+      }
+    };
+
+    // Retrieve JWT token from local storage
+    const token = getToken();
+
+    // Decode token and extract user ID
+    const extractedUserId = decodeToken(token);
+
+    // Update state with the extracted user ID
+    setUserId(extractedUserId);
+  })
+
+  const [formData, setFormData] = useState({
+    propertyName: '',
+    address: '',
+    price: '',
+    description: '',
+    picture: null,
+  });
+  console.log(formData);
   const mapPart = new PinSelectMap();
 
   useEffect(() => {
@@ -72,13 +115,31 @@ const AddProperty = () => {
     exec();
   }, []); 
 
-
-  const [formData, setFormData] = useState({
-    propertyName: '',
-    address: '',
-    price: '',
-    picture: ''
-  });
+  useEffect(() => {
+    const previewBeforeUpload = (id) => {
+      const inputElement = document.querySelector(`#${id}`);
+      if (!inputElement) return;
+      
+      inputElement.addEventListener("change", function(e) {
+        if (e.target.files.length === 0) {
+          return;
+        }
+        const file = e.target.files[0];
+        const url = URL.createObjectURL(file);
+        const previewDivElement = document.querySelector(`#${id}-preview div`);
+        if (previewDivElement) {
+          previewDivElement.innerText = file.name;
+        }
+        const previewImgElement = document.querySelector(`#${id}-preview img`);
+        if (previewImgElement) {
+          previewImgElement.src = url;
+        }
+        setFormData({ ...formData, picture: file });
+      });
+    };
+    
+    previewBeforeUpload("picture");
+  }, [formData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -88,66 +149,108 @@ const AddProperty = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    const { lat, lng } = mapPart.getCapturedLocation();
-    
-  
-    console.log('Form submitted:', formData);
-    formData.lat = lat;
-    formData.lng = lng;
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Now you can send the formData to your backend
-  };
 
-  // const handleMarkerCreate = (longitude, latitude) => {
-  //   setFormData({
-  //     ...formData,
-  //     longitude,
-  //     latitude
-  //   });
-  // };
-
-  const handleCordinates = () => {
     const { lat, lng } = mapPart.getCapturedLocation();
-    setFormData({
-      ...formData,
-      lat,
-      lng
-    });
-  }
+
+    try {
+      // Upload image to ImageBB
+      const formDataToSubmit = new FormData();
+      formDataToSubmit.append('image', formData.picture);
+
+      const imagebbResponse = await fetch('https://api.imgbb.com/1/upload?key=9cc677417b95856e79018a9a63248658', {
+        method: 'POST',
+        body: formDataToSubmit
+      });
+
+      const imagebbData = await imagebbResponse.json();
+      const imageUrl = imagebbData.data.display_url;
+      console.log('Image uploaded successfully:', imageUrl);
+
+      // Prepare data to send to your backend API
+      const propertyData = {
+        price: formData.price,
+        address: formData.address,
+        lat: lat,
+        lng: lng,
+        picture: imageUrl,
+        name: formData.propertyName,
+        description: formData.description,
+        userid: userid
+      };
+      
+      console.log('Property added successfully:', propertyData);
+
+      // Send property data (including image URL) to your backend API
+      const backendResponse = await fetch('http://localhost:3000/property/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(propertyData)
+      });
+
+      if(!backendResponse.status === 201) {
+        toast.success('Property added successfully');
+      }
+      console.log('Property added successfully:');
+
+      // Clear form fields after successful submission
+      setFormData({
+        propertyName: '',
+        address: '',
+        price: '',
+        description: '',
+        picture: null
+      });
+
+    } catch (error) {
+      console.error('Error adding property:', error);
+    }
+  };
 
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="bg-gray-100 rounded-lg p-4">
+        <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="propertyName" className="block text-gray-700 font-bold mb-2">Property Name</label>
-            <input type="text" id="propertyName" name="propertyName" value={formData.propertyName} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <input type="text" id="propertyName" name="propertyName" value={formData.propertyName} onChange={handleInputChange} className="w-full border rounded p-2" required />
           </div>
           
           <div className="mb-4">
             <label htmlFor="address" className="block text-gray-700 font-bold mb-2">Address</label>
-            <input type="text" id="address" name="address" value={formData.address} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <input type="text" id="address" name="address" value={formData.address} onChange={handleInputChange} className="w-full border rounded p-2" required />
           </div>
           
           <div className="mb-4">
             <label htmlFor="price" className="block text-gray-700 font-bold mb-2">Price</label>
-            <input type="number" id="price" name="price" value={formData.price} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <input type="number" id="price" name="price" value={formData.price} onChange={handleInputChange} className="w-full border rounded p-2" required />
           </div>
-          
+
           <div className="mb-4">
-            <label htmlFor="picture" className="block text-gray-700 font-bold mb-2">Picture</label>
-            <input type="file" id="picture" name="picture" accept="image/*" onChange={handleInputChange} className="w-full border rounded p-2" />
+            <label htmlFor="description" className="block text-gray-700 font-bold mb-2">Description</label>
+            <textarea id="description" name="description" value={formData.description} onChange={handleInputChange} className="w-full border rounded p-2" rows="4"></textarea>
           </div>
           
+          <div className="relative p-3">
+            <input type="file" id="picture" accept="image/*" name="picture" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
+            <label htmlFor="picture" id="picture-preview" className="relative block w-full h-full">
+              <img src="https://bit.ly/3ubuq5o" alt="" className="w-[150px] h-[100px] object-cover"/>
+              <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20 text-white font-semibold w-[150px]">
+                <span>+</span>
+              </div>
+            </label>
+          </div>
+
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Property</button>
         </form>
       </div>
       
       <div className="h-full bg-gray-200 rounded-lg">
-        <div id="map" style={{ height: '400px', width: '100%' }}></div>
+        <div id="map" style={{ height: '100%', width: '100%' }}></div>
       </div>
     </div>
   );
