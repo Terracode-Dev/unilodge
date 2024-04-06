@@ -2,8 +2,8 @@ import {useState, useEffect} from 'react';
 // import MapContainer from '../components/Map';
 import PropertyCard from '../components/PropertyCardll';
 import WardenCard from '../components/WardenCard';
-import WardenRCard from '../components/WardenRCard';
 import WardenACard from '../components/WardenACard';
+import WardenRCard from '../components/WardenRCard';
 
 const WardenDash = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -113,16 +113,18 @@ const Approved = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Approved</h1>
+      <h1 className="text-3xl font-bold mb-4">Properties</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
         {/* {properties.map(property => (
           <PropertyCard key={property.id} property={property} />
         ))} */}
 
-        <WardenACard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe', link:'../more' }} />
-        <WardenACard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', reservedBy: 'Jane Doe', link:'../more' }} />
-        <WardenACard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', reservedBy: 'John Smith', link:'../more' }} />
-        <WardenACard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', reservedBy: 'Jane Smith', link:'../more' }} />
+        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved', link:'../more' }} />
+        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected', link:'../more' }} />
+        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending', link:'../more' }} />
+        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved', link:'../more' }} />
+        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected', link:'../more' }} />
+        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending', link:'../more' }} />
       </div>
     </div>
   );
@@ -132,6 +134,7 @@ const Rejected = () => {
   const [properties, setProperties] = useState([]);
 
   useEffect(() => {
+    // Fetch property data from PostgreSQL database
     fetchProperties();
   }, []);
 
@@ -154,12 +157,15 @@ const Rejected = () => {
       <h1 className="text-3xl font-bold mb-4">Rejected</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
         {/* {properties.map(property => (
-          <ReservationsCard key={property.id} property={property} />
+          <PropertyCard key={property.id} property={property} />
         ))} */}
-        <WardenRCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe', link:'../more' }} />
-        <WardenRCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', reservedBy: 'Jane Doe', link:'../more' }} />
-        <WardenRCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', reservedBy: 'John Smith', link:'../more' }} />
-        <WardenRCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', reservedBy: 'Jane Smith', link:'../more' }} />
+
+        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved', link:'../more'}} />
+        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected', link:'../more' }} />
+        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending', link:'../more' }} />
+        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved', link:'../more' }} />
+        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected', link:'../more' }} />
+        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending', link:'../more' }} />
       </div>
     </div>
   );
