@@ -4,6 +4,7 @@ import Map from '../components/Map';
 import PropertyCard from '../components/PropertyCardStud';
 import { isAuthenticated } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
+import { MapShower, PinSelectMap } from '../utils/mapService';
 
 const StudentDash = () => {
     const [properties, setProperties] = useState([]);
@@ -12,11 +13,52 @@ const StudentDash = () => {
 
     useEffect(() => {
         // Fetch properties from API
-        fetch('/api/properties')
+        fetch('http://localhost:3000/wardens/approved')
             .then(response => response.json())
             .then(data => setProperties(data))
             .catch(error => console.error('Error fetching properties:', error));
-    }, []);
+
+        
+        //Adding Map Mechanism
+
+        console.log("data recieved: " , properties);
+
+
+        //TODO: expected property element
+        //{name : "kalton" , longitude : "123.123", latitude : "123.123", description : "some shit"}
+
+    }, []);   
+      
+    useEffect(() => {
+        const mapPart = new MapShower();
+        let mapDiv = document.getElementById('map');
+        if (!mapDiv) {
+          // Perhaps handle the error or retry logic
+          console.log("there is no any element with id - map")
+          return;
+        }
+      
+        const exec = async () => {
+          await mapPart.start(mapDiv);
+
+            //TODO: change this to propertise and deleter above property sample list
+          properties.forEach((prop) => {
+            const marker = {
+              name: prop.name,
+              func: () => { alert("Marker clicked!"); },
+              coordinates: { lat: Number(prop.lat), long: Number(prop.lng) },
+            };
+      
+            mapPart.addMarker(marker);
+          });
+        };
+      
+        exec();
+      }, []); // Dependency array to ensure this runs once on component mount
+        
+   // This ensures m
+        //--End of Map
+    
 
     const handleSearch = (data) => {
         setSearchQuery(data.query);
@@ -37,17 +79,14 @@ const StudentDash = () => {
                 <div className="w-full md:w-1/2 bg-gray-200 p-4 overflow-y-auto">
                     {/* List of properties */}
                     <div className="space-y-4 h-full overflow-y-auto">
-                        {/* {properties.map(property => (
+                         {properties.map(property => (
                             <PropertyCard
-                                key={property.id}
-                                title={property.property_name}
+                                key={property.propid}
+                                title={property.name}
                                 description={property.description}
-                                imageURL={property.imageURL}
+                                imageURL={property.picture}
                             />
-                        ))} */}
-                        <PropertyCard title="Property 1" description="Description 1" imageURL="https://via.placeholder.com/300" />
-                        <PropertyCard title="Property 2" description="Description 2" imageURL="https://via.placeholder.com/300" />
-                        <PropertyCard title="Property 3" description="Description 3" imageURL="https://via.placeholder.com/300" />
+                        ))}
                     </div>
                 </div>
                 <div id='map' className="w-full md:w-1/2 bg-gray-500">

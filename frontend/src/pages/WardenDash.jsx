@@ -95,10 +95,10 @@ const Approved = () => {
 
   const fetchProperties = async () => {
     try {
-      const response = await fetch('YOUR_API_ENDPOINT');
+      const response = await fetch('http://localhost:3000/wardens/approved');
       if (response.ok) {
         const data = await response.json();
-        setProperties(data.properties);
+        setProperties(data);
       } else {
         throw new Error('Failed to fetch data');
       }
@@ -111,16 +111,9 @@ const Approved = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">Properties</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
-        {/* {properties.map(property => (
-          <PropertyCard key={property.id} property={property} />
-        ))} */}
-
-        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved', link:'../more' }} />
-        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected', link:'../more' }} />
-        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending', link:'../more' }} />
-        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved', link:'../more' }} />
-        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected', link:'../more' }} />
-        <WardenACard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending', link:'../more' }} />
+         {properties.map(property => (
+          <WardenACard key={property.propid} property={property} />
+        ))} 
       </div>
     </div>
   );
@@ -136,10 +129,10 @@ const Rejected = () => {
 
   const fetchProperties = async () => {
     try {
-      const response = await fetch('YOUR_API_ENDPOINT');
+      const response = await fetch('http://localhost:3000/wardens/rejected');
       if (response.ok) {
         const data = await response.json();
-        setProperties(data.properties);
+        setProperties(data);
       } else {
         throw new Error('Failed to fetch data');
       }
@@ -152,16 +145,9 @@ const Rejected = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">Rejected</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
-        {/* {properties.map(property => (
-          <PropertyCard key={property.id} property={property} />
-        ))} */}
-
-        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved', link:'../more'}} />
-        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected', link:'../more' }} />
-        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending', link:'../more' }} />
-        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved', link:'../more' }} />
-        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected', link:'../more' }} />
-        <WardenRCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending', link:'../more' }} />
+         {properties.map(property => (
+          <WardenRCard key={property.id} property={property} />
+        ))}
       </div>
     </div>
   );

@@ -164,7 +164,7 @@ const AddProperty = () => {
         body: JSON.stringify(propertyData)
       });
 
-      if(!backendResponse.status === 201) {
+      if(backendResponse.status === 201) {
         toast.success('Property added successfully');
       }
 

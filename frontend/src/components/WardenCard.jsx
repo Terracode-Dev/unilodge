@@ -12,7 +12,7 @@ const WardenCard = ({ property }) => {
   }
 
   const updateStatus = async (propid, status) => {
-    await fetch(`http://localhost:3000/property/updatestat/${propid}`, {
+    await fetch(`http://localhost:3000/wardens/updatestat/${propid}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

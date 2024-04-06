@@ -14,7 +14,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-blue-950 p-4">
       <div className="container mx-auto flex justify-between items-center relative">
         <div className="flex items-center">
           <span className="text-white text-4xl font-extrabold">Unilodge</span>
@@ -30,7 +30,6 @@ const NavigationBar = () => {
               <a href="/login" className="text-gray-300 hover:text-white font-semibold mr-4">Login</a>
               <a href="/signup" className="text-gray-300 hover:text-white font-semibold mr-4">Signup</a>
             </>
-            
             
           }
           

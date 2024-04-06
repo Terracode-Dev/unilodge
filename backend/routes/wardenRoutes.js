@@ -45,7 +45,31 @@ router.get('/pending', async (req,res) => {
     }
 });
 
-router.put('updatestat/:propid', async (res, req) => {
+router.get('/approved', async (req,res) => {
+    try {
+        const approvedProp = await propertyController.getApprovedprop();
+        res.json(approvedProp);
+        res.status(200).end();
+    } catch (error) {
+        console.error("Error getting approved properties", error);
+        res.status(500).send("Error getting approved properties");
+    }
+})
+
+router.get('/rejected', async (req,res) => {
+    try {
+        const rejectedProp = await propertyController.getRejectedprop();
+        res.json(rejectedProp);
+        res.status(200).end();
+    } catch (error) {
+        console.error("Error getting rejected properties", error);
+        res.status(500).send("Error getting rejected properties");
+    }
+})
+
+router.put('/updatestat/:propid', async (req , res) => {
+
+    console.log("Inside updatestat and data is:", req.body);
     const { status } = req.body;
     const propid = req.params.propid;
 

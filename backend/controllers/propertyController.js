@@ -129,10 +129,31 @@ async function getApprovedprop(){
 
 }
 
+async function getRejectedprop(){
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(
+            'SELECT * FROM property where status=$1',
+            ['declined']
+        );
+
+        await client.query('COMMIT');
+
+        return result.rows;
+    } catch (error) {
+        throw error;
+    }finally {
+        client.release();
+    }  
+
+}
+
 module.exports = {
     createProperty,
     getPropertiesbylid,
     getPendingProperties,
     updateStatus,
     getApprovedprop,
+    getRejectedprop,
 }

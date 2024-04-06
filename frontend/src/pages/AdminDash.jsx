@@ -1,8 +1,11 @@
 import React,{useEffect,useState} from 'react'
-import { isAuthenticated } from '../utils/authService';
+import { isAuthenticated, getToken, getUserIdFromToken } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const token = getToken();
+const userId = getUserIdFromToken(token);
 
 const AdminDash = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -181,9 +184,13 @@ const AddMember = () => {
     </div>
   );
 };
+
 const CreateBlog = () => {
-
-
+  const [formData, setFormData] = useState({
+    title: '',
+    summary: '',
+    image: '', 
+  });
   useEffect(() => {
     const previewBeforeUpload = (id) => {
       const inputElement = document.querySelector(`#${id}`);
@@ -210,14 +217,37 @@ const CreateBlog = () => {
     
   }, []);
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const [formData, setFormData] = useState({
-    title: '',
-    summary: '',
-    email: '',
-    pwd: '',
-    type:''
-  });
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const apiKey = '9cc677417b95856e79018a9a63248658'; 
+    const apiUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Image upload failed');
+      }
+
+      const data = await response.json();
+      const imageUrl = data.data.url;
+
+      setFormData({
+        ...formData,
+        image: imageUrl
+      });
+    } catch (error) {
+      console.error('Image upload error:', error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -227,44 +257,67 @@ const CreateBlog = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Now you can send the formData to your backend
+
+    try {
+      const response = await fetch('http://localhost:3000/admins/createblog', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        console.log('Blog added successfully!');
+        toast.success('Blog added successfully!');
+        // Optionally, redirect or perform another action upon success
+      } else {
+        console.error('Failed to add blog');
+        toast.error('Failed to add blog');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to add blog');
+    }
   };
+
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="bg-gray-100 rounded-lg p-4">
+        <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="title" className="block text-gray-700 font-bold mb-2">Title</label>
-            <input type="text" id="Name" name="Name" value={formData.Name} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <input type="text" id="title" name="title" value={formData.title} onChange={handleInputChange} className="w-full border rounded p-2" />
           </div>
           
           <div className="mb-4">
             <label htmlFor="summary" className="block text-gray-700 font-bold mb-2">Description</label>
-            <textarea id="summary" name="summary" value={formData.username} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <textarea id="summary" name="summary" value={formData.summary} onChange={handleInputChange} className="w-full border rounded p-2" />
           </div>
           
-          {/* <div className="mb-4">
-            <label htmlFor="image" className="block text-gray-700 font-bold mb-2">Picture</label>
-            <input type="file" id="image" name="image" accept="image/*" onChange={handleInputChange} className="w-full border rounded p-2" />
-          </div> */}
           <div className="relative p-3">
-            <input type="file" id="image" accept="image/*" name="image" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
-            <label for="image" id="image-preview" className="relative block w-full h-full">
-              <img src="https://bit.ly/3ubuq5o" alt="" className="w-[150px] h-[100px] object-cover"/>
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              name="image"
+              onChange={handleImageUpload}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            />
+            <label htmlFor="image" className="relative block w-full h-full">
+              <img
+                src={formData.image || 'https://bit.ly/3ubuq5o'}
+                alt=""
+                className="w-[150px] h-[100px] object-cover"
+              />
               <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-20 text-white font-semibold w-[150px]">
                 <span>+</span>
               </div>
             </label>
           </div>
-          
-          
-          
-
-          
-          
           
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Blog</button>
         </form>

@@ -21,7 +21,7 @@ class MapShower {
   constructor() {
     this.map = null;
     this.MarkerSet = [];
-    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 };
+    this.DefaultcenterPoint = { lat: 6.821424969190636, lng: 80.04156216592877 };
 
   }
 
