@@ -13,7 +13,9 @@ const WardenDash = () => {
   };
 
   return (
-    <div className=" m-6">
+    
+    <div className=" m-6 bg-slate-200 rounded-lg" >
+      
       <div className="flex mb-4">
         <button
           className={`mr-2 px-4 py-2 ${

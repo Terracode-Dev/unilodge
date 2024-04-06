@@ -24,15 +24,15 @@ const StudentDash = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen ">
             {/* Search bar */}
-            <div className="bg-gray-200 p-4">
+            <div className=" p-4">
                 <SearchBar placeholder="Search properties..." onSearch={handleSearch} />
             </div>
 
             {/* Content */}
-            <div className="flex flex-col md:flex-row flex-1">
-                <div className="w-full md:w-1/2 bg-gray-200 p-4 overflow-y-auto">
+            <div className="flex flex-col md:flex-row flex-1  ">
+                <div className="w-full md:w-1/2 p-4 overflow-y-auto bg-slate-200  shadow-md rounded-lg ml-4 mr-2">
                     {/* List of properties */}
                     <div className="space-y-4 h-full overflow-y-auto">
                         {/* {properties.map(property => (
@@ -46,9 +46,11 @@ const StudentDash = () => {
                         <PropertyCard title="Property 1" description="Description 1" imageURL="https://via.placeholder.com/300" link="../more" />
                         <PropertyCard title="Property 2" description="Description 2" imageURL="https://via.placeholder.com/300" link="../more"/>
                         <PropertyCard title="Property 3" description="Description 3" imageURL="https://via.placeholder.com/300" link="../more"/>
+                        <PropertyCard title="Property 3" description="Description 3" imageURL="https://via.placeholder.com/300" link="../more"/>
+                        
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 bg-gray-500">
+                <div className="w-full md:w-1/2  bg-slate-200 p-4 shadow-md rounded-lg mr-4">
                     {/* Integrated map */}
                     {/* <Map searchQuery={searchQuery} priceRange={priceRange} /> */}
                 </div>

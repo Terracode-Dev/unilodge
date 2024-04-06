@@ -11,7 +11,7 @@ const LandlordDash = () => {
   };
 
   return (
-    <div className=" m-6">
+    <div className=" m-6 bg-slate-200 rounded-lg">
       <div className="flex mb-4">
         <button
           className={`mr-2 px-4 py-2 ${
@@ -109,7 +109,7 @@ const AddProperty = () => {
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      <div className="bg-gray-100 rounded-lg p-4">
+      <div className="bg-gray-100 rounded-lg p-4 shadow-lg">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="propertyName" className="block text-gray-700 font-bold mb-2">Property Name</label>
