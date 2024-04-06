@@ -43,12 +43,15 @@ async function getAccReserv(studentid){
         client = await pool.connect();
         await client.query('BEGIN');
 
-        //const queryText = 'INSERT INTO res_status (wardenid,propid, status) VALUES ($1, $2, $3) RETURNING *';
-        // const values = [wardenid, propertyid, 'true'];
-        // const { rows } = await client.query(queryText, values);
+        const queryText = `
+            SELECT property.*
+            FROM reservation
+            INNER JOIN res_status ON reservation.reserid = res_status.reserid
+            WHERE res_status.status = 'true' && reservation.studentid = $1
+        `;
+        const { rows } = await client.query(queryText, studentid);
 
         await client.query('COMMIT');
-
         return rows[0];
     } catch (error) {
         if (client) await client.query('ROLLBACK');
@@ -65,9 +68,13 @@ async function getRejReserv(studentid){
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // const queryText = 'INSERT INTO prop_statu (wardenid,propid, status) VALUES ($1, $2, $3) RETURNING *';
-        // const values = [wardenid, propertyid, 'false']; 
-        // const { rows } = await client.query(queryText, values);
+        const queryText = `
+            SELECT property.*
+            FROM reservation
+            INNER JOIN res_status ON reservation.reserid = res_status.reserid
+            WHERE res_status.status = 'false' && reservation.studentid = $1
+        `;
+        const { rows } = await client.query(queryText, studentid);
 
         await client.query('COMMIT');
 
