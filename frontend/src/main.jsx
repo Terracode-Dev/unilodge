@@ -15,6 +15,8 @@ import Blog from './pages/Blog.jsx';
 import AdminDash from './pages/AdminDash.jsx';
 import WardenDash from './pages/WardenDash.jsx';
 import MoreDetails from './pages/MoreDetails.jsx';
+import About from './pages/about.jsx';
+import ContactUs from './pages/Contact.jsx';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +55,14 @@ const router = createBrowserRouter([
   {
     path: "/blog",
     element: <MoreDetails/>,
+  },
+  {
+    path: "/about",
+    element: <About/>,
+  },
+  {
+    path: "/contact",
+    element: <ContactUs/>,
   }
 ]);
 
