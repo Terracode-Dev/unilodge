@@ -11,7 +11,7 @@ const PropertyCard = ({ property }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden relative">
       <img
-        src={property.imageUrl}
+        src={property.picture}
         alt="Property"
         className="w-full h-40 object-cover"
       />
@@ -24,7 +24,7 @@ const PropertyCard = ({ property }) => {
             className={`${
               property.status === 'approved'
                 ? 'text-green-600'
-                : property.status === 'rejected'
+                : property.status === 'declined'
                 ? 'text-red-600'
                 : 'text-yellow-600'
             } font-bold`}

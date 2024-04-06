@@ -33,34 +33,43 @@ async function createProperty(price, address, lat, lng, picture, name,descriptio
     }  
 }
 
-async function getPropertiesbylid(userid){
+async function getPropertiesbylid(userid) {
+    if (!userid) {
+        throw new Error('userid is required'); // Validate input parameter
+    }
+
     const client = await pool.connect();
 
     try {
-        const landloard = await client.query(
-            'SELECT landlordid FROM landlord where userid=$1',
-            [userid]
-        )
+        await client.query('BEGIN'); // Start a transaction
 
-        if (landloard.rows.length === 0) {
+        // Retrieve landlordid based on userid
+        const landlordResult = await client.query(
+            'SELECT landlordid FROM landlord WHERE userid = $1',
+            [userid]
+        );
+
+        if (landlordResult.rows.length === 0) {
             throw new Error(`Landlord not found for the given userid ${userid}`);
         }
 
-        const  lid  = landloard.rows[0].landlordid;
+        const landlordId = landlordResult.rows[0].landlordid;
 
-        const result = await client.query(
-            'SELECT * FROM property where lid=$1',
-            [lid]
+        // Retrieve properties associated with landlordid
+        const propertyResult = await client.query(
+            'SELECT * FROM property WHERE lid = $1',
+            [landlordId]
         );
 
-        await client.query('COMMIT');
+        await client.query('COMMIT'); // Commit the transaction
 
-        return result.rows;
+        return propertyResult.rows;
     } catch (error) {
-        throw error;
-    }finally {
-        client.release();
-    }  
+        await client.query('ROLLBACK'); // Rollback the transaction on error
+        throw error; // Re-throw the error for higher-level error handling
+    } finally {
+        client.release(); // Release the client back to the pool
+    }
 }
 
 async function getPendingProperties(){
@@ -81,8 +90,49 @@ async function getPendingProperties(){
         client.release();
     }  
 }
+
+async function updateStatus(propid, status) {
+    const client = await pool.connect();
+
+    try {
+        await client.query(
+            'UPDATE property SET status = $1 WHERE propid = $2',
+            [status, propid]
+        );
+
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+async function getApprovedprop(){
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(
+            'SELECT * FROM property where status=$1',
+            ['approved']
+        );
+
+        await client.query('COMMIT');
+
+        return result.rows;
+    } catch (error) {
+        throw error;
+    }finally {
+        client.release();
+    }  
+
+}
+
 module.exports = {
     createProperty,
     getPropertiesbylid,
     getPendingProperties,
+    updateStatus,
+    getApprovedprop,
 }

@@ -61,10 +61,10 @@ const Pending = () => {
 
   const fetchProperties = async () => {
     try {
-      const response = await fetch('YOUR_API_ENDPOINT');
+      const response = await fetch('http://localhost:3000/wardens/pending');
       if (response.ok) {
         const data = await response.json();
-        setProperties(data.properties);
+        setProperties(data);
       } else {
         throw new Error('Failed to fetch data');
       }
@@ -77,13 +77,9 @@ const Pending = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4">Pending List</h1>
       <div className="grid grid-cols-1 gap-4">
-        {/* {properties.map(property => (
-          <ReservationsCard key={property.id} property={property} />
-        ))} */}
-        <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe', link:'../more' }} />
-        <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', reservedBy: 'Jane Doe', link:'../more' }} />
-        <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', reservedBy: 'John Smith', link:'../more' }} />
-        <WardenCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', reservedBy: 'Jane Smith', link:'../more' }} />
+         {properties.map(property => (
+          <WardenCard key={property.propid} property={property} />
+        ))}
       </div>
     </div>
   );
