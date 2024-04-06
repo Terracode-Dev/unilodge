@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import MoreDetailsModal from './MoreDetails';
 
-const WardenRCard = ({ property }) => {
+const WardenACard = ({ title, description, imageURL, link, property }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
   return (
     <div className="flex bg-white shadow-md rounded-lg overflow-hidden">
       <img
@@ -14,13 +19,22 @@ const WardenRCard = ({ property }) => {
         <p className="text-gray-600 mb-2">{property.address}</p>
         <p className="text-sm text-gray-500"> Approved: {property.reservedBy}</p>
         <div className="mt-4 flex justify-end">
-          <Link to={property.link}>
-            <button className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-950">View More</button>
-          </Link>
+            <button className="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-950" onClick={openModal}>View More</button>
         </div>
+        {modalOpen && (
+        <MoreDetailsModal
+          propertyDetails={{
+            title: title,
+            description: description,
+            image: imageURL,
+            link: link,
+          }}
+          closeModal={closeModal}
+        />
+      )}
       </div>
     </div>
   );
 };
 
-export default WardenRCard;
+export default WardenACard;
