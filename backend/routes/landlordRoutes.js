@@ -13,7 +13,7 @@ router.post('/signup',async (req,res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     
     try {
-        const newLandlord = await landlordController.createLandlord(name, username, email, hashedPassword);
+        const newLandlord = await landlordController.AddLanloard(name, username, email, hashedPassword);
         res.json(newLandlord);
         res.status(201).end();
     } catch (error) {
@@ -24,7 +24,7 @@ router.post('/signup',async (req,res) => {
 
 router.delete('/delete/:userid', async (req, res) => {
     try {
-        await landlordController.deleteLandlord(req.params.userid);
+        await landlordController.deleteLandLoad(req.params.userid);
         res.send('Landlord deleted');
         res.status(204).end();
     } catch (error) {

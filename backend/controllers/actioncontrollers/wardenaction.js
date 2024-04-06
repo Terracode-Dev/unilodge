@@ -82,7 +82,7 @@ async function getAllpending() {
                 FROM prop_statu
             )
         `;
-        const { rows } = await client.query(queryText, [lid]);
+        const { rows } = await client.query(queryText);
 
         await client.query('COMMIT');
 
@@ -101,7 +101,6 @@ async function getAllApprovedProperties() {
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // Query to select all property details where status is 'true' in prop_statu table
         const queryText = `
             SELECT property.*
             FROM property
@@ -127,7 +126,6 @@ async function getAllRejectedProperties() {
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // Query to select all property details where status is 'false' in prop_statu table
         const queryText = `
             SELECT property.*
             FROM property

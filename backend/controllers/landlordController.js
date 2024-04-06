@@ -1,9 +1,11 @@
-import { AddUser } from "./admincontroller";
+//import { AddUser } from "./admincontroller";
+const addnewuser = require('../controllers/admincontroller');
+const pool = require('../db');
 //add lanloard
 async function AddLanloard(name, username, email, password, adminid) {
     const client = await pool.connect();
     try {
-        const uid = await AddUser(name, username, email, password, adminid);
+        const uid = await addnewuser.AddUser(name, username, email, password, adminid);
         if(Number.isInteger(uid)){
             const newLandlord = await client.query(
             'INSERT INTO landlord (userid) VALUES ($1) RETURNING *',
