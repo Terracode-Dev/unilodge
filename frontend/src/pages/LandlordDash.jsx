@@ -9,6 +9,8 @@ import { getToken } from '../utils/authService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
 
+const mapPart = new PinSelectMap();
+
 
 const LandlordDash = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -61,6 +63,7 @@ const LandlordDash = () => {
   );
 };
 
+
 const AddProperty = () => {
   const [userid, setUserId] = useState(null);
 
@@ -103,7 +106,8 @@ const AddProperty = () => {
     picture: null,
   });
   console.log(formData);
-  const mapPart = new PinSelectMap();
+  
+  //const mapPart = new PinSelectMap();
 
   useEffect(() => {
     const exec = async () => {
@@ -152,7 +156,10 @@ const AddProperty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    //console.log("location data: " , mapPart.getCapturedLocation())
     const { lat, lng } = mapPart.getCapturedLocation();
+    // formData.lat = lat;
+    // formData.lng = lng;
 
     try {
       // Upload image to ImageBB

@@ -109,7 +109,7 @@ class PinSelectMap {
   }
 
   getCapturedLocation() {
-    //console.log("captured location");
+    console.log("captured location");
     return this.capturedLocation;
   }
 }
