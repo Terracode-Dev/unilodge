@@ -15,10 +15,10 @@ const Properties = () => {
   
     const fetchProperties = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/property/${String(userid)}`);
-        if (response.ok) {
+        const response = await fetch(`http://localhost:3000/property/${userid}`);
+        if (response.status === 200) {
           const data = await response.json();
-          properties = (data);
+          properties = [data];
         } else {
           throw new Error('Failed to fetch data');
         }

@@ -62,7 +62,27 @@ async function getPropertiesbylid(userid){
         client.release();
     }  
 }
+
+async function getPendingProperties(){
+    const client = await pool.connect();
+
+    try {
+        const result = await client.query(
+            'SELECT * FROM property where status=$1',
+            ['pending']
+        );
+
+        await client.query('COMMIT');
+
+        return result.rows;
+    } catch (error) {
+        throw error;
+    }finally {
+        client.release();
+    }  
+}
 module.exports = {
     createProperty,
     getPropertiesbylid,
+    getPendingProperties,
 }
