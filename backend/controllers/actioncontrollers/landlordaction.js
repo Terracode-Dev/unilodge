@@ -80,7 +80,7 @@ async function getapprovedprop(lid) {
     }
 }
 
-
+//accept reservation 
 async function AccReserv(reservid,lid){
     let client;
     try {
@@ -101,15 +101,17 @@ async function AccReserv(reservid,lid){
         if (client) client.release();
     }
 }
+
+//reject reservation 
 async function RejReserv(reservid,lid){
     let client;
     try {
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // const queryText = 'INSERT INTO prop_statu (wardenid,propid, status) VALUES ($1, $2, $3) RETURNING *';
-        // const values = [wardenid, propertyid, 'false']; 
-        // const { rows } = await client.query(queryText, values);
+        const queryText = 'INSERT INTO res_status (lid,reserid, status) VALUES ($1, $2, $3) RETURNING *';
+        const values = [lid, reservid, 'false'];
+        const { rows } = await client.query(queryText, values);
 
         await client.query('COMMIT');
 
@@ -129,13 +131,13 @@ async function allAccReserv(lid){
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // const queryText = `
-        //     SELECT property.*
-        //     FROM property
-        //     INNER JOIN prop_statu ON property.propid = prop_statu.propid
-        //     WHERE prop_statu.status = 'true'
-        // `;
-        // const { rows } = await client.query(queryText);
+        const queryText = `
+            SELECT property.*
+            FROM reservation
+            INNER JOIN res_status ON reservation.reserid = res_status.reserid
+            WHERE res_status.status = 'true' && res_status.lid = $1
+        `;
+        const { rows } = await client.query(queryText,[lid]);
 
         await client.query('COMMIT');
 
@@ -155,13 +157,13 @@ async function allRejReserv(lid){
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // const queryText = `
-        //     SELECT property.*
-        //     FROM property
-        //     INNER JOIN prop_statu ON property.propid = prop_statu.propid
-        //     WHERE prop_statu.status = 'false'
-        // `;
-        // const { rows } = await client.query(queryText);
+        const queryText = `
+            SELECT property.*
+            FROM reservation
+            INNER JOIN res_status ON reservation.reserid = res_status.reserid
+            WHERE res_status.status = 'false' && res_status.lid = $1
+        `;
+        const { rows } = await client.query(queryText,[lid]);
 
         await client.query('COMMIT');
 
@@ -181,15 +183,15 @@ async function allPendReser(lid){
         client = await pool.connect();
         await client.query('BEGIN');
 
-        // const queryText = `
-        //     SELECT *
-        //     FROM property
-        //     WHERE propid NOT IN (
-        //         SELECT propid
-        //         FROM prop_statu
-        //     )
-        // `;
-        // const { rows } = await client.query(queryText, [lid]);
+        const queryText = `
+            SELECT *
+            FROM reservation
+            WHERE reserid NOT IN (
+                SELECT reserid
+                FROM res_status
+            )
+        `;
+        const { rows } = await client.query(queryText, [lid]);
 
         await client.query('COMMIT');
 

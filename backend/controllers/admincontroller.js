@@ -59,7 +59,7 @@ const AddUser = async (name, username, email, password, adminid) => {
     }
 }
 
-
+//edit user 
 async function editUserdetail(userID,name, username, email, password) {
     const client = await pool.connect(); 
 
