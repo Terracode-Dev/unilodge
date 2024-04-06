@@ -4,6 +4,7 @@ const router = express.Router();
 const admincontroller = require('../controllers/admincontroller');
 const adminactioncontroller = require('../controllers/actioncontrollers/adminaction');
 
+
 router.post('/editUser/:userId', async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
@@ -11,12 +12,24 @@ router.post('/editUser/:userId', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         const editedUserMessage = await admincontroller.editUserdetail(userId, name, username, email, hashedPassword);
-        res.status(200).json({ message: editedUserMessage });
+        res.status(200).json(editedUserMessage);
     } catch (error) {
         console.log(error);
         res.status(500).send("Error with Updating the User details");
     }
 });
+
+router.post('/createArtical', async (req, res) => {
+    try {
+        const { adminId, title, description, image } = req.body;
+        const newArt = await adminactioncontroller.createArticle(adminId, title, description, image);
+        res.status(201).json(newArt); 
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error: Cannot create an article");
+    }
+});
+
 
 router.delete('/deleteartical/:articalid', async (req, res) => {
     try {

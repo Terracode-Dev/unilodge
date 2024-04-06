@@ -5,7 +5,7 @@ async function AddReservation(studentid,propertyid,description){
     try{
         const client = await pool.connect();
         await client.query("BEGIN");
-        const newReservation = await client.query(
+        await client.query(
             //QUERY
             'INSERT INTO reservation (propid,studentid,description) VALUES($1,$2,$3)',
             [propertyid,studentid,description]
@@ -110,5 +110,8 @@ async function getPendReser(studentid){
 
 module.exports = {
     AddReservation,
-    CancelReservation
+    CancelReservation,
+    getAccReserv,
+    getPendReser,
+    getRejReserv
 }

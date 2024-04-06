@@ -67,8 +67,8 @@ async function editUserdetail(userID,name, username, email, password) {
         await client.query('BEGIN');
 
         await client.query(
-            'UPDATE users SET name = $1, username = $2, email = $3, password = $4',
-            [name, username, email, password]
+            'UPDATE users SET name = $1, username = $2, email = $3, password = $4 WHERE userid = $5',
+            [name, username, email, password,userID]
         );
 
         await client.query('COMMIT');
