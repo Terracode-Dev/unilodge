@@ -45,7 +45,9 @@ router.get('/pending', async (req,res) => {
     }
 });
 
-router.put('updatestat/:propid', async (res, req) => {
+router.put('/updatestat/:propid', async (req , res) => {
+
+    console.log("Inside updatestat and data is:", req.body);
     const { status } = req.body;
     const propid = req.params.propid;
 
