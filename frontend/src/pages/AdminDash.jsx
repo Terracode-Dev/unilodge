@@ -221,33 +221,35 @@ const CreateBlog = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
+    // This variable was originally named formData, which shadowed the state variable
+    const uploadFormData = new FormData();
+    uploadFormData.append('image', file);
 
     const apiKey = '9cc677417b95856e79018a9a63248658'; 
     const apiUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
 
     try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        body: formData
-      });
+      // const response = await fetch(apiUrl, {
+      //   method: 'POST',
+      //   body: uploadFormData
+      // });
 
-      if (!response.ok) {
-        throw new Error('Image upload failed');
-      }
+      // if (!response.ok) {
+      //   throw new Error('Image upload failed');
+      // }
 
-      const data = await response.json();
-      const imageUrl = data.data.url;
+      // const data = await response.json();
+      const imageUrl =  '';
 
-      setFormData({
-        ...formData,
+      // Now correctly referencing the component's state here
+      setFormData(prevFormData => ({
+        ...prevFormData,
         image: imageUrl
-      });
+      }));
     } catch (error) {
       console.error('Image upload error:', error);
     }
-  };
+};
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -259,8 +261,9 @@ const CreateBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("form data is: ", formData);
     try {
+      //console.log("final form data is: ", formData);
       const response = await fetch('http://localhost:3000/admins/createblog', {
         method: 'POST',
         headers: {
@@ -295,7 +298,7 @@ const CreateBlog = () => {
           
           <div className="mb-4">
             <label htmlFor="summary" className="block text-gray-700 font-bold mb-2">Description</label>
-            <textarea id="summary" name="summary" value={formData.summary} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <textarea id="summary" name="description" value={formData.description} onChange={handleInputChange} className="w-full border rounded p-2" />
           </div>
           
           <div className="relative p-3">
