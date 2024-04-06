@@ -21,15 +21,15 @@ class MapShower {
   constructor() {
     this.map = null;
     this.MarkerSet = [];
-    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 };
-
+    this.DefaultcenterPoint = { lat: 6.821552803820606, lng: 80.04158362451058 };
+    
   }
 
   async initMap(mapDiv) {
     if (!this.map) {
       this.map = new google.maps.Map(mapDiv, {
         center: this.DefaultcenterPoint,
-        zoom: 8,
+        zoom: 15,
       });
 
       this.MarkerSet.forEach((markerObj) => {
@@ -66,7 +66,7 @@ class PinSelectMap {
   constructor() {
     this.map = null;
     this.mapDiv = null;
-    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 };
+    this.DefaultcenterPoint = { lat: 6.821552803820606, lng: 80.04158362451058 };
     this.centerMarker = null;
     this.centerPoint = null;
     this.capturedLocation = null;
@@ -77,7 +77,7 @@ class PinSelectMap {
     if (!this.map) {
       this.map = new google.maps.Map(mapDiv, {
         center: this.DefaultcenterPoint,
-        zoom: 8,
+        zoom: 15,
       });
 
       this.centerMarker = new google.maps.Marker({

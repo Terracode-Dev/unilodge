@@ -4,6 +4,7 @@ import Map from '../components/Map';
 import PropertyCard from '../components/PropertyCardStud';
 import { isAuthenticated } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
+import { MapShower, PinSelectMap } from '../utils/mapService';
 
 const StudentDash = () => {
     const [properties, setProperties] = useState([]);
@@ -16,7 +17,59 @@ const StudentDash = () => {
             .then(response => response.json())
             .then(data => setProperties(data))
             .catch(error => console.error('Error fetching properties:', error));
-    }, []);
+
+        
+        //Adding Map Mechanism
+
+        console.log("data recieved: " , properties);
+
+
+        //TODO: expected property element
+        //{name : "kalton" , longitude : "123.123", latitude : "123.123", description : "some shit"}
+
+    }, []);   
+      
+    useEffect(() => {
+        const mapPart = new MapShower();
+        let mapDiv = document.getElementById('map');
+        if (!mapDiv) {
+          // Perhaps handle the error or retry logic
+          console.log("there is no any element with id - map")
+          return;
+        }
+      
+        const exec = async () => {
+          await mapPart.start(mapDiv);
+          
+
+          //test witharai delete krpn
+          const propertiesz = [
+            {name: "kalton", latitude: "6.821552803820606", longitude: "80.04158362451058", description: "some info"},
+            {name: "property A", latitude: "6.821919023919709", longitude: "80.04181147862813", description: "some info"},
+            {name: "property B", latitude: "6.820687384070401", longitude: "80.04089164579602", description: "some info"},
+            {name: "property C", latitude: "6.822469563994144", longitude: "80.04115790967593", description: "some info"},
+            {name: "property D", latitude: "6.820735065151939", longitude: "80.04153228711233", description: "some info"},
+            {name: "property E", latitude: "6.8206955085357075", longitude: "80.04227393659575", description: "some info"}
+          ];
+          
+            //TODO: change this to propertise and deleter above property sample list
+          propertiesz.forEach((prop) => {
+            const marker = {
+              name: prop.name,
+              func: () => { alert("Marker clicked!"); },
+              coordinates: { lat: Number(prop.latitude), long: Number(prop.longitude) },
+            };
+      
+            mapPart.addMarker(marker);
+          });
+        };
+      
+        exec();
+      }, []); // Dependency array to ensure this runs once on component mount
+        
+   // This ensures m
+        //--End of Map
+    
 
     const handleSearch = (data) => {
         setSearchQuery(data.query);
