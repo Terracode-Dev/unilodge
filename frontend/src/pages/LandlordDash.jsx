@@ -1,13 +1,15 @@
 import {useState, useEffect} from 'react';
-import MapContainer from '../components/Map';
-import PropertyCard from '../components/PropertyCardll';
 import ReservationsCard from '../components/ReservationsCard';
 import { isAuthenticated } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
+import Properties from '../components/PropertiesLandlord';
 import { MapShower, PinSelectMap } from '../utils/mapService';
-import { getToken } from '../utils/authService';
+import { getToken, getUserIdFromToken } from '../utils/authService';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+
+const token = getToken();
+const userid = getUserIdFromToken(token);
 
 const mapPart = new PinSelectMap();
 
@@ -20,7 +22,6 @@ const LandlordDash = () => {
   };
 
   // This ensures markers are added once the component and map are ready
-
 
   return (
     isAuthenticated()?
@@ -65,38 +66,6 @@ const LandlordDash = () => {
 
 
 const AddProperty = () => {
-  const [userid, setUserId] = useState(null);
-
-  useEffect(()=> {
-    const decodeToken = (token) => {
-      if (!token) return null;
-      try {
-        // Split the token into its three parts (header, payload, signature)
-        const tokenParts = token.split('.');
-        if (tokenParts.length !== 3) return null;
-
-        // Decode the base64-encoded payload (second part of the token)
-        const decodedPayload = atob(tokenParts[1]);
-
-        // Parse the decoded payload to get user ID and other data
-        const { userid } = JSON.parse(decodedPayload);
-
-        return userid;
-      } catch (error) {
-        console.error('Error decoding JWT token:', error.message);
-        return null;
-      }
-    };
-
-    // Retrieve JWT token from local storage
-    const token = getToken();
-
-    // Decode token and extract user ID
-    const extractedUserId = decodeToken(token);
-
-    // Update state with the extracted user ID
-    setUserId(extractedUserId);
-  })
 
   const [formData, setFormData] = useState({
     propertyName: '',
@@ -105,7 +74,6 @@ const AddProperty = () => {
     description: '',
     picture: null,
   });
-  console.log(formData);
   
   //const mapPart = new PinSelectMap();
 
@@ -186,8 +154,6 @@ const AddProperty = () => {
         description: formData.description,
         userid: userid
       };
-      
-      console.log('Property added successfully:', propertyData);
 
       // Send property data (including image URL) to your backend API
       const backendResponse = await fetch('http://localhost:3000/property/create', {
@@ -201,7 +167,6 @@ const AddProperty = () => {
       if(!backendResponse.status === 201) {
         toast.success('Property added successfully');
       }
-      console.log('Property added successfully:');
 
       // Clear form fields after successful submission
       setFormData({
@@ -300,46 +265,7 @@ const Reservations = () => {
   );
 };
 
-const Properties = () => {
-  const [properties, setProperties] = useState([]);
 
-  useEffect(() => {
-    // Fetch property data from PostgreSQL database
-    fetchProperties();
-  }, []);
-
-  const fetchProperties = async () => {
-    try {
-      const response = await fetch('YOUR_API_ENDPOINT');
-      if (response.ok) {
-        const data = await response.json();
-        setProperties(data.properties);
-      } else {
-        throw new Error('Failed to fetch data');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Properties</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
-        {/* {properties.map(property => (
-          <PropertyCard key={property.id} property={property} />
-        ))} */}
-
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', status: 'approved' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', status: 'rejected' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', status: 'pending' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', status: 'approved' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 5', address: '112 Birch St', status: 'rejected' }} />
-        <PropertyCard property={{ imageUrl:'https://via.placeholder.com/500', name: 'Property 6', address: '131 Cedar St', status: 'pending' }} />
-      </div>
-    </div>
-  );
-};
 
 
 export default LandlordDash;

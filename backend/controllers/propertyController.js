@@ -14,11 +14,11 @@ async function createProperty(price, address, lat, lng, picture, name,descriptio
             throw new Error('Landlord not found for the given userid');
         }
 
-        const { landlordid } = result.rows[0].landlordid;
+        const  lid  = result.rows[0].landlordid;
 
         await client.query(
             'INSERT INTO property (price, address, lat, lng, picture,name, lid, description) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)',
-            [price, address, lat, lng, picture, name, landlordid, description]
+            [price, address, lat, lng, picture, name, lid, description]
         );
 
         await client.query('COMMIT');
@@ -33,6 +33,36 @@ async function createProperty(price, address, lat, lng, picture, name,descriptio
     }  
 }
 
+async function getPropertiesbylid(userid){
+    const client = await pool.connect();
+
+    try {
+        const landloard = await client.query(
+            'SELECT landlordid FROM landlord where userid=$1',
+            [userid]
+        )
+
+        if (landloard.rows.length === 0) {
+            throw new Error(`Landlord not found for the given userid ${userid}`);
+        }
+
+        const  lid  = landloard.rows[0].landlordid;
+
+        const result = await client.query(
+            'SELECT * FROM property where lid=$1',
+            [lid]
+        );
+
+        await client.query('COMMIT');
+
+        return result.rows;
+    } catch (error) {
+        throw error;
+    }finally {
+        client.release();
+    }  
+}
 module.exports = {
-    createProperty
+    createProperty,
+    getPropertiesbylid,
 }

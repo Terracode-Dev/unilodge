@@ -15,4 +15,16 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.get('/:userid', async (req, res) => {
+    
+    try {
+        const properties = await propertyController.getPropertiesbylid(req.params.userid);
+        res.json(properties);
+        res.status(200).end();
+    } catch (error) {
+        console.error("Error getting properties", error);
+        res.status(500).send("Error getting properties");
+    }
+});
+
 module.exports = router;
