@@ -1,3 +1,6 @@
+const pool = require("../../db");
+
+
 async function getpendingprop(lid) {
     let client;
     try {
@@ -76,6 +79,7 @@ async function getapprovedprop(lid) {
         if (client) client.release();
     }
 }
+
 
 async function AccReserv(reservid,lid){
     let client;
@@ -198,4 +202,4 @@ async function allPendReser(lid){
     }
 }
 
-module.exports = {getpendingprop}
+module.exports = {getpendingprop,getapprovedprop,getrejectedprop,allAccReserv,RejReserv,AccReserv,allRejReserv,allPendReser}

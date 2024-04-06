@@ -58,22 +58,21 @@ router.delete('/cancelreservation/:resid', async(req,res) => {
     }
 });
 
-router.post('/reservation/pending/:studentid', async (req,res) => {
+router.post('/reservation/pending/:studentid', async (req, res) => {
     try {
         const reservedstid = req.params.studentid;
-        await studnetaction.getPendReser(reservedstid);
-        res.status(200).end();
+        const pendingReservations = await studnetaction.getPendReser(reservedstid);
+        res.status(200).json(pendingReservations);
     } catch (error) {
         console.log(error);
-        res.status(500).send("Error with rectiveing data from the database");
+        res.status(500).send("Error with retrieving data from the database");
     }
 });
 
 router.post('/reservation/accept/:studentid', async (req,res) => {
     try {
         const reservedstid = req.params.studentid;
-        await studnetaction.getAccReserv(reservedstid);
-        res.status(200).end();
+        res.status(200).json(await studnetaction.getAccReserv(reservedstid));
     } catch (error) {
         console.log(error);
         res.status(500).send("Error with rectiveing data from the database");
@@ -83,8 +82,7 @@ router.post('/reservation/accept/:studentid', async (req,res) => {
 router.post('/reservation/reject/:studentid', async (req,res) => {
     try {
         const reservedstid = req.params.studentid;
-        await studnetaction.getRejReserv(reservedstid);
-        res.status(200).end();
+        res.status(200).json(await studnetaction.getRejReserv(reservedstid));
     } catch (error) {
         console.log(error);
         res.status(500).send("Error with rectiveing data from the database");
