@@ -24,10 +24,10 @@ router.post('/signup',async (req,res) => {
 })
 
 router.post('/createblog',async (req,res) => {
-    const {userid, title, description, image} = req.body;
+    const {title, description, image} = req.body;
     
     try {
-        const newArticle = await articleController.createArticle(userid, title, description, image);
+        const newArticle = await articleController.createArticle(title, description, image);
         res.json(newArticle);
         res.status(201).end();
     } catch (error) {

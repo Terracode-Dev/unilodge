@@ -12,9 +12,27 @@ const EditPropertyModal = ({ property, closeModal }) => {
     setEditedProperty({ ...editedProperty, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Perform submit action here, like sending data to server
     console.log("Edited Property:", editedProperty);
+    const response = await fetch(`http://localhost:3000/landlords/update/${property.propid}`,{
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: editedProperty.name, 
+        address: editedProperty.address, 
+        description: editedProperty.description
+    })
+    });
+    if (response.ok) {
+      console.log("Property updated");
+    } else {
+      console.error("Failed to update property");
+    }
+
+
     // Close modal
     closeModal();
   };

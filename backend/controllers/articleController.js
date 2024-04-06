@@ -25,6 +25,22 @@ async function createArticle(title, description, image){
     }
 }
 
+async function getArticles(){
+    const client = await pool.connect();
+
+    try {
+        const articles = await client.query('SELECT * FROM article');
+        await client.query('COMMIT');
+        return articles.rows;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    }finally{
+        client.release();
+    }
+}
+
 module.exports = {
     createArticle,
+    getArticles,
 }

@@ -1,7 +1,7 @@
 // BlogModal.js
 import React from 'react';
 
-const BlogModal = ({ title, content, author, date, image, onClose }) => {
+const BlogModal = ({ title, content, image, onClose }) => {
   return (
     <div className="modal fixed w-full h-full top-0 left-0 flex items-center justify-center">
       <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -13,10 +13,6 @@ const BlogModal = ({ title, content, author, date, image, onClose }) => {
           </div>
           <img className="w-full mb-4" src={image} alt={title} />
           <p className="text-gray-700 text-base">{content}</p>
-          <div className="mt-4">
-            <p className="text-gray-600 text-base">Author: {author}</p>
-            <p className="text-gray-600 text-base">Date: {date}</p>
-          </div>
         </div>
       </div>
     </div>

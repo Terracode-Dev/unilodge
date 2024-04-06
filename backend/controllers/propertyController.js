@@ -149,6 +149,24 @@ async function getRejectedprop(){
 
 }
 
+async function updateProperty(propid, name, adress, description){
+    const client = await pool.connect();
+
+    try {
+        await client.query(
+            'UPDATE property SET name = $1, address = $2, description = $3 WHERE propid = $4',
+            [name, adress, description, propid]
+        );
+
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    }finally {
+        client.release();
+    }
+}
+
 module.exports = {
     createProperty,
     getPropertiesbylid,
@@ -156,4 +174,5 @@ module.exports = {
     updateStatus,
     getApprovedprop,
     getRejectedprop,
+    updateProperty
 }

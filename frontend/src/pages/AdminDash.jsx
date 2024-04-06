@@ -221,8 +221,8 @@ const CreateBlog = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('image', file);
+    const uploadFormData = new FormData();
+    uploadFormData.append('image', file);
 
     const apiKey = '9cc677417b95856e79018a9a63248658'; 
     const apiUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
@@ -230,7 +230,7 @@ const CreateBlog = () => {
     try {
       const response = await fetch(apiUrl, {
         method: 'POST',
-        body: formData
+        body: uploadFormData
       });
 
       if (!response.ok) {
@@ -240,10 +240,10 @@ const CreateBlog = () => {
       const data = await response.json();
       const imageUrl = data.data.url;
 
-      setFormData({
-        ...formData,
+      setFormData(prevFormData => ({
+        ...prevFormData,
         image: imageUrl
-      });
+      }));
     } catch (error) {
       console.error('Image upload error:', error);
     }
@@ -295,7 +295,7 @@ const CreateBlog = () => {
           
           <div className="mb-4">
             <label htmlFor="summary" className="block text-gray-700 font-bold mb-2">Description</label>
-            <textarea id="summary" name="summary" value={formData.summary} onChange={handleInputChange} className="w-full border rounded p-2" />
+            <textarea id="summary" name="description" value={formData.description} onChange={handleInputChange} className="w-full border rounded p-2" />
           </div>
           
           <div className="relative p-3">

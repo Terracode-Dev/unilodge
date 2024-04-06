@@ -1,5 +1,5 @@
 // BlogPage.js
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import BlogCard from '../components/BlogCard';
 import BlogModal from '../components/BlogModal';
 // import image1 from './images/image1.jpg';
@@ -19,51 +19,36 @@ const BlogPage = () => {
     setSelectedBlog(null);
   };
 
-  const blogs = [
-    {
-      id: 1,
-      title: 'First Blog Post',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-      author: 'John Doe',
-      date: 'April 1, 2024',
-      //image: image1
-    },
-    {
-      id: 2,
-      title: 'Second Blog Post',
-      content: 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames...',
-      author: 'Jane Smith',
-      date: 'April 2, 2024',
-      //image: image2
-    }
-  ];
+  const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+      // Fetch property data from PostgreSQL database
+      fetchArticles();
+    }, []);
+  
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/students/getposts`);
+        if (response.status === 200) {
+          const data = await response.json();
+          setArticles(data);
+          console.log(data);
+        } else {
+          throw new Error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   return (
     <div className="blog-page">
-      <h1 className="text-3xl font-bold text-center my-8 text-white">Welcome to our Blog!</h1>
+      <h1 className="text-3xl font-bold text-center my-8 text-black">Welcome to our Blog!</h1>
       <div className="flex flex-wrap justify-center">
-        {blogs.map(blog => (
-          <BlogCard
-            key={blog.id}
-            title={blog.title}
-            content={blog.content}
-            author={blog.author}
-            date={blog.date}
-            //image={blog.image}
-            onClick={() => handleCardClick(blog)}
-          />
+        {articles.map(article => (
+          <BlogCard key={article.id} article={article}/>
         ))}
       </div>
-      {showModal && selectedBlog && (
-        <BlogModal
-          title={selectedBlog.title}
-          content={selectedBlog.content}
-          author={selectedBlog.author}
-          date={selectedBlog.date}
-          // image={selectedBlog.image}
-          onClose={handleCloseModal}
-        />
-      )}
     </div>
   );
 };

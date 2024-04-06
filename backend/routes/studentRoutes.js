@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const studentController = require('../controllers/studentController');
+const articleController = require('../controllers/articleController');
 const bcrypt = require('bcrypt');
 
 router.post('/signup',async (req,res) => {
@@ -29,6 +30,17 @@ router.delete('/delete/:userid', async (req, res) => {
     } catch (error) {
         console.error("Error deleting student", error);
         res.status(500).send("Error deleting student");
+    }
+})
+
+router.get('/getposts', async (req, res) => {
+    try {
+        const articles = await articleController.getArticles();
+        res.json(articles);
+        res.status(200).end();
+    } catch (error) {
+        console.error("Error getting students", error);
+        res.status(500).send("Error getting students");
     }
 })
 module.exports = router;
