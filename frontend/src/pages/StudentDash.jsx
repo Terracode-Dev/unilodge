@@ -50,9 +50,9 @@ const StudentDash = () => {
                         <PropertyCard title="Property 3" description="Description 3" imageURL="https://via.placeholder.com/300" />
                     </div>
                 </div>
-                <div className="w-full md:w-1/2 bg-gray-500">
+                <div id='map' className="w-full md:w-1/2 bg-gray-500">
                     {/* Integrated map */}
-                    <Map searchQuery={searchQuery} priceRange={priceRange} />
+                    
                 </div>
             </div>
         </div>: <div>
