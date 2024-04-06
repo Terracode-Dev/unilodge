@@ -21,10 +21,11 @@ class MapShower {
   constructor() {
     this.map = null;
     this.MarkerSet = [];
-    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 }
+    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 };
+
   }
 
-  initMap(mapDiv) {
+  async initMap(mapDiv) {
     if (!this.map) {
       this.map = new google.maps.Map(mapDiv, {
         center: this.DefaultcenterPoint,
@@ -67,6 +68,8 @@ class PinSelectMap {
     this.mapDiv = null;
     this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 };
     this.centerMarker = null;
+    this.centerPoint = null;
+    this.capturedLocation = null;
   }
 
   initMap(mapDiv) {
@@ -99,11 +102,18 @@ class PinSelectMap {
     loadGoogleMapsScript("initMap");
   }
 
+
   captureLocation(lat, lng) {
+    this.capturedLocation = { lat, lng };
     console.log(`Location Captured: Lat: ${lat}, Lng: ${lng}`);
+  }
+
+  getCapturedLocation() {
+    //console.log("captured location");
+    return this.capturedLocation;
   }
 }
 
 // Exporting the classes is not needed in a purely JavaScript context,
 // but if you're using modules, you can uncomment the following:
- export { MapShower, PinSelectMap };
+export { MapShower, PinSelectMap };

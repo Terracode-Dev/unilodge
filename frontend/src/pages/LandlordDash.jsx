@@ -4,6 +4,7 @@ import PropertyCard from '../components/PropertyCardll';
 import ReservationsCard from '../components/ReservationsCard';
 import { isAuthenticated } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
+import { MapShower, PinSelectMap } from '../utils/mapService';
 
 const LandlordDash = () => {
   const [activeTab, setActiveTab] = useState('tab1');
@@ -11,6 +12,9 @@ const LandlordDash = () => {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  // This ensures markers are added once the component and map are ready
+
 
   return (
     isAuthenticated()?
@@ -54,6 +58,21 @@ const LandlordDash = () => {
 };
 
 const AddProperty = () => {
+
+
+  const mapPart = new PinSelectMap();
+
+  useEffect(() => {
+    const exec = async () => {
+      const mapDiv = document.getElementById('map');
+      if (mapDiv) {
+        await mapPart.start(mapDiv);
+      }
+    };
+    exec();
+  }, []); 
+
+
   const [formData, setFormData] = useState({
     propertyName: '',
     address: '',
@@ -70,6 +89,13 @@ const AddProperty = () => {
   };
 
   const handleSubmit = (e) => {
+    const { lat, lng } = mapPart.getCapturedLocation();
+    
+  
+    console.log('Form submitted:', formData);
+    formData.lat = lat;
+    formData.lng = lng;
+
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Now you can send the formData to your backend
@@ -82,6 +108,15 @@ const AddProperty = () => {
   //     latitude
   //   });
   // };
+
+  const handleCordinates = () => {
+    const { lat, lng } = mapPart.getCapturedLocation();
+    setFormData({
+      ...formData,
+      lat,
+      lng
+    });
+  }
 
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -112,7 +147,7 @@ const AddProperty = () => {
       </div>
       
       <div className="h-full bg-gray-200 rounded-lg">
-        <MapContainer />
+        <div id="map" style={{ height: '400px', width: '100%' }}></div>
       </div>
     </div>
   );
