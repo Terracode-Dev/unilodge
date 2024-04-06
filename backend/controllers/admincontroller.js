@@ -18,13 +18,6 @@ const usernameAvailability = async (username) => {
     }
 }
 
-const compairPassword = async (password, comfpass) => {
-    if(password == comfpass){
-        return true;
-    }else{
-        return false;
-    }
-}
 
 const deleteUser = async (userId) => {
       const client = await pool.connect();
@@ -45,10 +38,9 @@ const deleteUser = async (userId) => {
     }
 }
 
-const AddUser = async (name, username, email, password, comfpass, adminid) => {
+const AddUser = async (name, username, email, password, adminid) => {
     if (await usernameAvailability(username)) {
-        if (await compairPassword(password, comfpass)) {
-            try {
+         try {
                 const client = await pool.connect();
                 await client.query("BEGIN");
                 // Add to user table
@@ -62,16 +54,13 @@ const AddUser = async (name, username, email, password, comfpass, adminid) => {
                 await client.query('ROLLBACK');
                 throw error;
             }
-        } else {
-            return "Passwords are Not matched";
-        }
     } else {
         return "Username Already Exists";
     }
 }
 
 
-async function editUserdetail(name, username, email, password) {
+async function editUserdetail(userID,name, username, email, password) {
     const client = await pool.connect(); 
 
     try {

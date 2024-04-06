@@ -4,49 +4,45 @@ const router = express.Router();
 const admincontroller = require('../controllers/admincontroller');
 const adminactioncontroller = require('../controllers/actioncontrollers/adminaction');
 
-router.post('/editUser/:userid',async (req,res) => {
+router.post('/editUser/:userId', async (req, res) => {
     try {
-        const { name, username, email, password} = req.body;
+        const { name, username, email, password } = req.body;
+        const userId = req.params.userId;
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password,salt);
-        const editedUser = await admincontroller.editUserdetail(name,username,email,hashedPassword);
-        res.json(editedUser);
-        res.json(201).end();
-    } catch (error) {
-        console.log(error)
-        res.status(500).send("Error with Updating the User details")
-    }
-})
-
-router.delete('/deleteartical/:articalid',async (req,res) => {
-    try {
-        const {articalId} = req.body;
-        const deleteartical = adminactioncontroller.deleteArticle(articalId);
-        res.json(deleteartical);
-        res.status(200).end();
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const editedUserMessage = await admincontroller.editUserdetail(userId, name, username, email, hashedPassword);
+        res.status(200).json({ message: editedUserMessage });
     } catch (error) {
         console.log(error);
-        res.status(500).send("Error with deleting the artical")
+        res.status(500).send("Error with Updating the User details");
     }
-    
-})
+});
 
-
-router.post('/getArtical/:articalid',async (req,res) =>{
+router.delete('/deleteartical/:articalid', async (req, res) => {
     try {
-        const {articalId} = req.body;
-        const articaldetail = adminactioncontroller.getArticleById(articalId);
-        res.json(articaldetail);
-        res.status(200).end();
+        await adminactioncontroller.deleteArticle(req.params.articalid);
+        res.status(204).send("Article Deleted"); 
     } catch (error) {
-        console.log(error)
-        res.status(500).send("Error with rectriving the data")
-        
+        console.log(error);
+        res.status(500).send("Error with deleting the article");
     }
-})
+});
 
 
-router.post('./getAllartical',async (req,res)=>{
+
+router.post('/getArtical/:articalid', async (req, res) => {
+    try {
+        const articaldetail = await adminactioncontroller.getArticleById(req.params.articalid);
+        res.status(200).json(articaldetail); 
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error with retrieving the data");
+    }
+});
+
+
+
+router.post('/getAllartical',async (req,res)=>{
     try {
         const articals = adminactioncontroller.getAllArticles();
         res.json(articals)
@@ -59,14 +55,17 @@ router.post('./getAllartical',async (req,res)=>{
 })
 
 
-router.post('/updateArtical/:articalid',async (req,res) => {
+router.post('/updateArtical/:articalid', async (req, res) => {
     try {
-        const {articalId, adminID, title, description, image} = req.body;
-        const updateArtical = adminactioncontroller.updateArticle(articalId,adminID,title,description,image);
-        res.json(updateArtical);
-        res.status(200).end();
+        const { adminID, title, description, image } = req.body;
+        const articalId = req.params.articalid; 
+        const updateArtical = await adminactioncontroller.updateArticle(articalId, adminID, title, description, image);
+        res.status(200).json(updateArtical); 
     } catch (error) {
-        console.log(error)
-        res.status(500).send("Error with updating the details")   
+        console.log(error);
+        res.status(500).send("Error with updating the details");
     }
-})
+});
+
+
+module.exports = router

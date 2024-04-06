@@ -1,4 +1,4 @@
-import { deleteUser } from './admincontroller';
+const deleteUser = require('../controllers/admincontroller');
 
 const pool = require('../db');
 
@@ -60,7 +60,7 @@ async function deleteStudent(userId) {
         );
 
         // DELETE FROM users
-        await deleteUser(userId);
+        await deleteUser.deleteUser(userId);
 
         // COMMIT TRANSACTION
         await client.query('COMMIT');

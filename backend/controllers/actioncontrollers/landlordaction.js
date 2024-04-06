@@ -1,4 +1,4 @@
-async function getpendingpropprop(lid) {
+async function getpendingprop(lid) {
     let client;
     try {
         client = await pool.connect();
@@ -197,3 +197,5 @@ async function allPendReser(lid){
         if (client) client.release();
     }
 }
+
+module.exports = {getpendingprop}

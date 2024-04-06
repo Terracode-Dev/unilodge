@@ -1,10 +1,10 @@
-import { AddUser } from "./admincontroller";
+const admin = require('./admincontroller');
 
 // Add warden
 async function AddWarden(name, username, email, password, adminid) {
     const client = await pool.connect();
     try {
-        const uid = await AddUser(name, username, email, password, adminid);
+        const uid = await admin.AddUser(name, username, email, password, adminid);
         if(Number.isInteger(uid)){
             // Add to the warden table
             const newWarden = await client.query(
@@ -39,7 +39,7 @@ async function deleteWarden(userId){
             [userId]
         );
         
-        await deleteUser(userId);
+        await admin.deleteUser(userId);
 
         await client.query('COMMIT');
         
