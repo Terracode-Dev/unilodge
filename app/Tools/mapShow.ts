@@ -19,10 +19,12 @@ type MarkerObject = {
 class MapShower {
     private map: google.maps.Map | null;
     private MarkerSet: Array<MarkerObject>;
+    private defaultCenter : any;
   
     constructor() {
       this.map = null;
       this.MarkerSet = [];
+      this.defaultCenter = { lat: -34.397, lng: 150.644 };
     }
   
     loadGoogleMapsScript(callback: string) {
@@ -42,7 +44,7 @@ class MapShower {
     initMap(mapDiv: HTMLElement) {
       if (!this.map) { // Ensure map is not already initialized
         this.map = new google.maps.Map(mapDiv, {
-          center: { lat: -34.397, lng: 150.644 },
+          center: this.defaultCenter,
           zoom: 8,
         });
   
