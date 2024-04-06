@@ -21,12 +21,13 @@ class MapShower {
   constructor() {
     this.map = null;
     this.MarkerSet = [];
+    this.DefaultcenterPoint = { lat: -34.397, lng: 150.644 }
   }
 
   initMap(mapDiv) {
     if (!this.map) {
       this.map = new google.maps.Map(mapDiv, {
-        center: { lat: -34.397, lng: 150.644 },
+        center: this.DefaultcenterPoint,
         zoom: 8,
       });
 
