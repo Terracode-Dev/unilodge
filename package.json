@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "if-env TYPE=server && (cd backend && npm install) || (cd frontend && npm install)",
-    "server": "node ./backend/app.js",
+    "server": "cd backend && node app.js",
     "client": "cd frontend && npm run dev"
   },
   "author": "",
