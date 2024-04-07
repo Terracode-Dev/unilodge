@@ -95,7 +95,7 @@ const StudentDash = () => {
         isAuthenticated()?
         <div className="flex flex-col h-screen">
             {/* Search bar */}
-            <div className="bg-gray-200 p-4">
+            <div className=" p-4">
                 <SearchBar placeholder="Search properties..." onSearch={handleSearch} />
             </div>
 
@@ -118,7 +118,7 @@ const StudentDash = () => {
                         ))}
                     </div>
                 </div>
-                <div id='map' className="w-full md:w-1/2 bg-gray-500">
+                <div id='map' className="w-full md:w-1/2 bg-gray-500 rounded-lg shadow-md mr-4">
                     {/* Integrated map */}
                     
                 </div>

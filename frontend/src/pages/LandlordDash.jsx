@@ -184,7 +184,7 @@ const AddProperty = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-4 bg-slate">
       <div className="bg-gray-100 rounded-lg p-4">
         <ToastContainer />
         <form onSubmit={handleSubmit}>
@@ -223,7 +223,7 @@ const AddProperty = () => {
       </div>
       
       <div className="h-full bg-gray-200 rounded-lg">
-        <div id="map" style={{ height: '100%', width: '100%' }}></div>
+        <div id="map" className='rounded-lg' style={{ height: '100%', width: '100%' }}></div>
       </div>
     </div>
   );
