@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/Searchbar';
 import Map from '../components/Map';
 import PropertyCard from '../components/PropertyCardStud';
-import { isAuthenticated } from '../utils/authService';
+import { isAuthenticated,getToken, getUserIdFromToken } from '../utils/authService';
 import UnauthorizedPage from './UnAuth';
 import { MapShower, PinSelectMap } from '../utils/mapService';
+
+
+const token = getToken();
+const userid = getUserIdFromToken(token);
 
 const StudentDash = () => {
     const [properties, setProperties] = useState([]);
@@ -107,6 +111,9 @@ const StudentDash = () => {
                          {properties.map(property => (
                             <PropertyCard
                                 key={property.propid}
+                                uid={userid}
+                                pid={property.propid}
+                                lid={property.lid}
                                 title={property.name}
                                 description={property.description}
                                 imageURL={property.picture}

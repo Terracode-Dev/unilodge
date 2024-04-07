@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import MoreDetailsModal from '../components/MoreDetails.jsx';
 
-const PropertyCard = ({ title, description, imageURL, price, address, contact }) => {
+const PropertyCard = ({ uid,lid, pid,title, description, imageURL, price, address, contact }) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const openModal = () => setModalOpen(true);
@@ -22,6 +22,9 @@ const PropertyCard = ({ title, description, imageURL, price, address, contact })
             <MoreDetailsModal
                 isOpen={modalOpen}
                 propertyDetails={{
+                    lid : lid,
+                    uid : uid,
+                    pid: pid,
                     title: title,
                     description: description,
                     image: imageURL,

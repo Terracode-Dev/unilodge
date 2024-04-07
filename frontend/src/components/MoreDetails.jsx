@@ -2,9 +2,22 @@
 import React from 'react';
 
 const MoreDetailsModal = ({ isOpen, propertyDetails, onClose }) => {
-    const handleReservation = () => {
+    const handleReservation = async () => {
+        let lid = propertyDetails.lid;
+        let pid = propertyDetails.pid;
+        let uid = propertyDetails.uid;
+
+        const response = await fetch(`http://localhost:3000/reserve`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ lid: lid, pid: pid , uid: uid})
+    });
+
+
         // Handle reservation logic here, such as sending a request to the backend
-        console.log('Reservation button clicked');
+        console.log(`Reservation button clicked ${lid} ${pid} ${uid}`);
     };
 
     return (

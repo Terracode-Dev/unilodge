@@ -187,6 +187,38 @@ async function updateReservationStatus(reserid, status){
 
 }
 
+async function addReservation(propid, lid , uid){
+    const client = await pool.connect();
+
+    try {
+
+        const resultstd = await client.query(
+            'SELECT * FROM student where userid=$1',
+            [uid]
+        );
+
+        const resid = await client.query(
+            'INSERT INTO reservation (propid, studentid) VALUES ($1, $2) RETURNING reserid',
+            [propid, resultstd.rows[0].studentid]
+        );
+
+
+        await client.query(
+            'INSERT INTO res_status (lid, reserid) VALUES ($1, $2) RETURNING reserid',
+            [lid, resid.rows[0].reserid]
+        );
+
+
+
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    }finally {
+        client.release();
+    }
+}
+
 
 async function getReservedProperties(usid){
 
@@ -266,5 +298,6 @@ module.exports = {
     getRejectedprop,
     updateProperty,
     getReservedProperties,
-    updateReservationStatus
+    updateReservationStatus,
+    addReservation
 }
