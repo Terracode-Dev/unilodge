@@ -101,7 +101,7 @@ const StudentDash = () => {
 
             {/* Content */}
             <div className="flex flex-col md:flex-row flex-1">
-                <div className="w-full md:w-1/2 bg-gray-200 p-4 overflow-y-auto">
+                <div className="w-full md:w-1/2 bg-gray-200 p-4 overflow-y-auto shadow-md rounded-lg ml-4 mr-2">
                     {/* List of properties */}
                     <div className="space-y-4 h-full overflow-y-auto">
                          {properties.map(property => (
