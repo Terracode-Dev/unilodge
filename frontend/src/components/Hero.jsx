@@ -16,9 +16,11 @@ const Hero = () => {
             </p>
           </div>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg focus:outline-none mt-4">
-          Get Started
-        </button>
+        <div className='mt-8'>
+          <a href="/login" className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg focus:outline-none ">
+            Get Started
+          </a>
+        </div>
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ import WardenDash from './pages/WardenDash.jsx';
 import MoreDetails from './pages/MoreDetails.jsx';
 import ContactUs from './pages/Contact.jsx';
 import About from './pages/About.jsx';
+import Footer from './components/Footer.jsx';
 
 const router = createBrowserRouter([
   {
@@ -71,5 +72,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NavigationBar />
     <RouterProvider router={router} />
+    <Footer />
   </React.StrictMode>,
 )

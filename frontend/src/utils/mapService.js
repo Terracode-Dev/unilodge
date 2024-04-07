@@ -29,7 +29,7 @@ class MapShower {
     if (!this.map) {
       this.map = new google.maps.Map(mapDiv, {
         center: this.DefaultcenterPoint,
-        zoom: 8,
+        zoom: 10,
       });
 
       this.MarkerSet.forEach((markerObj) => {

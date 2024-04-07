@@ -35,14 +35,7 @@ const LandlordDash = () => {
         >
           Add Property
         </button>
-        <button
-          className={`mr-2 px-4 py-2 ${
-            activeTab === 'tab2' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'
-          }`}
-          onClick={() => handleTabChange('tab2')}
-        >
-          Reservations
-        </button>
+        
         <button
           className={`mr-2 px-4 py-2 ${
             activeTab === 'tab3' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-700'

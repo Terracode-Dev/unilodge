@@ -43,7 +43,7 @@ const BlogPage = () => {
 
   return (
     <div className="blog-page">
-      <h1 className="text-3xl font-bold text-center my-8 text-black">Welcome to our Blog!</h1>
+      <h1 className="text-3xl font-bold text-center my-8 text-white">Welcome to our Blog!</h1>
       <div className="flex flex-wrap justify-center">
         {articles.map(article => (
           <BlogCard key={article.id} article={article}/>
