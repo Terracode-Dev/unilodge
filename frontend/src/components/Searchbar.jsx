@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 const SearchBar = ({ placeholder, onSearch }) => {
   const [priceRange, setPriceRange] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   const handlePriceChange = (e) => {
     setPriceRange(e.target.value);
@@ -9,7 +10,7 @@ const SearchBar = ({ placeholder, onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch({ priceRange });
+    onSearch({ priceRange, searchText });
   };
 
   return (
@@ -20,7 +21,8 @@ const SearchBar = ({ placeholder, onSearch }) => {
             className="rounded-l-full w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none"
             type="text"
             placeholder={placeholder}
-            onChange={(e) => onSearch({ query: e.target.value })}
+            //onChange={(e) => onSearch({ query: e.target.value })}
+            onChange={(e) => setSearchText(e.target.value)}
           />
           <select
             className="md:ml-2 rounded-full w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none"
@@ -28,9 +30,9 @@ const SearchBar = ({ placeholder, onSearch }) => {
             onChange={handlePriceChange}
           >
             <option value="">Price Range</option>
-            <option value="<10000">&lt; 10000</option>
-            <option value="10000-25000">10000 - 25000</option>
-            <option value=">25000">&gt; 25000</option>
+            <option value="min">&lt; 10000</option>
+            <option value="mid">10000 - 25000</option>
+            <option value="max">&gt; 25000</option>
           </select>
           <button
             type="submit"

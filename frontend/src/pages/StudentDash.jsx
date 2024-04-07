@@ -62,8 +62,33 @@ const StudentDash = () => {
 
     const handleSearch = (data) => {
         setSearchQuery(data.query);
+        //console.log("seach text:" , data.searchText);
         setPriceRange(data.priceRange);
+        //console.log("proce range is: " , data.priceRange);
         // Handle search functionality here
+
+        fetch('http://localhost:3000/wardens/approved')
+            .then(response => response.json())
+            .then(dataset => {
+                let newSet = dataset.filter((prop) => {
+                    let qryName = prop.name.toLowerCase();
+                    let searchName = data.searchText.toLowerCase();
+                    console.log("single prop: ", prop);
+                    if (data.priceRange === "min") {
+                        return qryName.includes(searchName) && prop.price < 10000;
+                    } else if (data.priceRange === "mid") {
+                        return qryName.includes(searchName) && prop.price >= 10000 && prop.price <= 25000;
+                    } else if (data.priceRange === "max") {
+                        return qryName.includes(searchName) && prop.price > 25000;
+                    }  else {
+                        return qryName.includes(searchName);
+                    }
+            });
+                //console.log("new updated set: ", newSet);
+                setProperties(newSet);
+            })
+            .catch(error => console.error('Error fetching properties:', error));
+
     };
 
     return (
