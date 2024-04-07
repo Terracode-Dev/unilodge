@@ -21,8 +21,8 @@ const NavigationBar = () => {
         </div>
         <div className="hidden md:flex">
           <a href="/" className="text-gray-300 hover:text-white font-semibold mr-4">Home</a>
-          <a href="#" className="text-gray-300 hover:text-white font-semibold mr-4">About</a>
-          <a href="#" className="text-gray-300 hover:text-white font-semibold mr-4">Contact</a>
+          <a href="/about" className="text-gray-300 hover:text-white font-semibold mr-4">About</a>
+          <a href="/contact" className="text-gray-300 hover:text-white font-semibold mr-4">Contact</a>
           <a href="/blog" className="text-gray-300 hover:text-white font-semibold mr-4">Blog</a>
           {isAuthenticated()? 
             <button onClick={handleLogout} className="text-gray-300 font-semibold hover:text-white mr-4">Logout</button> :
@@ -50,8 +50,8 @@ const NavigationBar = () => {
         </div>
         <div className={`${isOpen ? "block" : "hidden"} md:hidden absolute bg-gray-800 top-16 left-0 w-full p-4`}>
           <a href="/" className="block font-semibold text-gray-300 hover:text-white mb-2">Home</a>
-          <a href="#" className="block font-semibold text-gray-300 hover:text-white mb-2">About</a>
-          <a href="#" className="block font-semibold text-gray-300 hover:text-white mb-2">Contact</a>
+          <a href="/about" className="block font-semibold text-gray-300 hover:text-white mb-2">About</a>
+          <a href="/contact" className="block font-semibold text-gray-300 hover:text-white mb-2">Contact</a>
           <a href="/blog" className="text-gray-300 font-semibold hover:text-white mr-4">Blog</a>
           {isAuthenticated()?
             (

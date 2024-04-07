@@ -75,7 +75,7 @@ const Pending = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Pending List</h1>
+      <h1 className="text-3xl font-bold mb-4 text-white">Pending List</h1>
       <div className="grid grid-cols-1 gap-4">
          {properties.map(property => (
           <WardenCard key={property.propid} property={property} />
@@ -109,7 +109,7 @@ const Approved = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Properties</h1>
+      <h1 className="text-3xl font-bold mb-4 text-white">Properties</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
          {properties.map(property => (
           <WardenACard key={property.propid} property={property} />
@@ -143,7 +143,7 @@ const Rejected = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Rejected</h1>
+      <h1 className="text-3xl font-bold mb-4 text-white">Rejected</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-auto max-h-screen">
          {properties.map(property => (
           <WardenRCard key={property.id} property={property} />

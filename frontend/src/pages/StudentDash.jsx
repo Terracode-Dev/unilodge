@@ -85,6 +85,10 @@ const StudentDash = () => {
                                 title={property.name}
                                 description={property.description}
                                 imageURL={property.picture}
+                                price={property.price}
+                                address={property.address}
+                                contact={property.contact}
+                                
                             />
                         ))}
                     </div>
