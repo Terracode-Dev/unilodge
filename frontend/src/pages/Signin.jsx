@@ -1,19 +1,70 @@
 import { useState } from 'react';
+import { login } from '../utils/authService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const SigninPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your signin logic here
-    console.log('Username:', username);
-    console.log('Password:', password);
+
+    try {
+
+      const formData  = {
+        username,
+        password,
+        userType: selectedRole,
+      }
+
+      const response = await fetch('http://localhost:3000/login',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok){
+        const data  = await response.json();
+        login(data.token);
+
+        switch(data.user.role){
+          case 'landlord':
+            window.location.href = '/landlord';
+            break;
+          case 'student':
+            window.location.href = '/student';
+            break;
+          case 'warden':
+            window.location.href = '/warden';
+            break;
+          case 'admin':
+            window.location.href = '/admin';
+            break;
+          default:
+            window.location.href = '/';
+            break;
+        }
+        
+      }
+
+      if (response.status === 404){
+        toast.error('Invalid credentials or user type');
+      }
+
+      // TODO redirect to the appropriate page based on the selected role
+    } catch (error) {
+      console.error('An error occurred', error);
+    }
+
+
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <ToastContainer />
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to Unilodge</h2>
@@ -22,9 +73,9 @@ const SigninPage = () => {
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <label htmlFor="username" className="sr-only">Email address</label>
               <input
-                id="email-address"
+                id="username"
                 name="username"
                 type="text"
                 required
@@ -49,10 +100,10 @@ const SigninPage = () => {
               />
             </div>
             <div className="mt-12">
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700">Login as</label>
+              <label htmlFor="userType" className="block text-sm font-medium text-gray-700">Login as</label>
               <select
-                id="role"
-                name="role"
+                id="userType"
+                name="userType"
                 className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
@@ -61,6 +112,7 @@ const SigninPage = () => {
                 <option value="student">Student</option>
                 <option value="warden">Warden</option>
                 <option value="landlord">Landlord</option>
+                <option value="admin">Admin</option>
               </select>
             </div>
           </div>

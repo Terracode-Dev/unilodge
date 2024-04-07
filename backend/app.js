@@ -2,22 +2,34 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Create express app
 const app = express();
 
 // Parse json bodies
 app.use(bodyParser.json());
+app.use(cors(
+    {
+        origin: 'http://localhost:5173'
+    }
+))
 
 // Import routes
 const landlordRoutes = require('./routes/landlordRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const wardenRoutes = require('./routes/wardenRoutes');
+const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const propertyRoutes = require('./routes/propertyRoutes');
 
 // Route handlers
 app.use('/landlords', landlordRoutes);
 app.use('/students', studentRoutes);
 app.use('/wardens', wardenRoutes);
+app.use('/admins', adminRoutes);
+app.use('/login', authRoutes);
+app.use('/property', propertyRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hello, world!');

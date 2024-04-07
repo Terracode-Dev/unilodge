@@ -9,6 +9,16 @@ import HomePage from './pages/Home.jsx';
 import NavigationBar from './components/Navbar.jsx';
 import SigninPage from './pages/Signin.jsx';
 import ErrorPage from './pages/Error_page.jsx';
+import LandlordDash from './pages/LandlordDash.jsx';
+import StudentDash from './pages/StudentDash.jsx';
+import Blog from './pages/Blog.jsx';
+import AdminDash from './pages/AdminDash.jsx';
+import SignupPage from './pages/Signup.jsx';
+import WardenDash from './pages/WardenDash.jsx';
+import MoreDetails from './pages/MoreDetails.jsx';
+import ContactUs from './pages/Contact.jsx';
+import About from './pages/About.jsx';
+import Footer from './components/Footer.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,11 +30,48 @@ const router = createBrowserRouter([
     path: "/login",
     element: <SigninPage />,
   },
+  {
+    path: "/signup",
+    element: <SignupPage />,
+  },
+  {
+    path: "/landlord",
+    element: <LandlordDash />,
+  },
+  {
+    path: '/student',
+    element: <StudentDash />,
+  },
+  {
+    path:"/warden",
+    element: <WardenDash />,
+  },
+  {
+    path: "/blog",
+    element: <Blog />,
+  },
+  {
+    path: "/admin",
+    element: <AdminDash />,
+  },
+  {
+    path: "/more",
+    element: <MoreDetails/>,
+  },
+  {
+    path:"/contact",
+    element: <ContactUs />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NavigationBar />
     <RouterProvider router={router} />
+    <Footer />
   </React.StrictMode>,
 )
