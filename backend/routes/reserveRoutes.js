@@ -31,7 +31,6 @@ router.put('/:resStatid', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        
         await propertyController.addReservation(req.body.pid, req.body.lid , req.body.uid);
         res.status(200).end();
     } catch (error) {
