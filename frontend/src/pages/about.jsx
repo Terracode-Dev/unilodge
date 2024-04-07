@@ -2,7 +2,7 @@ import React from 'react'
 import  developersData  from '../components/developer.jsx';
 function About() {
   return (
-    <div className='h-screen  bg-fixed bg-center bg-cover custom-img overflow-hidden'>
+    <div className='h-screen  bg-fixed bg-center bg-cover bg-black custom-img overflow-hidden'>
     <div className="container mx-auto p-8 "> 
       <h1 className="text-3xl font-bold mb-4 text-white">"StayFinder: Your Ultimate Guide to Boarding Houses and Hostels"</h1>
       <p className="text-lg text-white">
