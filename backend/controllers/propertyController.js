@@ -167,6 +167,96 @@ async function updateProperty(propid, name, adress, description){
     }
 }
 
+
+async function updateReservationStatus(reserid, status){
+    const client = await pool.connect();
+
+    try {
+        await client.query(
+            'UPDATE res_status SET status = $1 WHERE reserid = $2',
+            [status, reserid]
+        );
+
+        await client.query('COMMIT');
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    }finally {
+        client.release();
+    }
+
+}
+
+
+async function getReservedProperties(usid){
+
+    const client = await pool.connect();
+    
+    let properrtySet = [];
+
+
+    try {
+
+        const landid = await client.query(
+            'SELECT * FROM landlord where userid=$1',
+            [usid]
+        );
+        const result = await client.query(
+            'SELECT * FROM res_status where lid=$1',
+            [landid.rows[0].landlordid]
+        );
+
+        console.log("first result: ", result.rows);
+
+        await client.query('BEGIN');
+        for (let row of result.rows) {
+            const resID = row.reserid;
+            const resStatid = row.ressstatid;
+
+            const reserData = await client.query(
+                'SELECT * FROM reservation where reserid=$1',
+                [resID]
+            );
+
+            const propData = await client.query(
+                'SELECT * FROM property where propid=$1',
+                [reserData.rows[0].propid]
+            );
+
+            const student = await client.query(
+                'SELECT * FROM student where studentid=$1',
+                [reserData.rows[0].studentid]
+            );
+
+            const userData = await client.query(
+                'SELECT * FROM users where userid=$1',
+                [student.rows[0].userid]
+            );
+
+            let resObject = {
+                "resID" : resID,
+                "resStatid" : resStatid,
+                "propName" : propData.rows[0].name,
+                "Address" : propData.rows[0].address,
+                "picture" : propData.rows[0].picture,
+                "student" : userData.rows[0].name,
+            }
+
+            //console.log("resObject: ", resObject);
+            properrtySet.push(resObject);
+
+        }
+
+        //console.log("properrtySet: ", properrtySet);
+        return properrtySet;
+
+    } catch (error) {
+        throw error;
+    }finally {
+        client.release();
+    }  
+}
+
 module.exports = {
     createProperty,
     getPropertiesbylid,
@@ -174,5 +264,7 @@ module.exports = {
     updateStatus,
     getApprovedprop,
     getRejectedprop,
-    updateProperty
+    updateProperty,
+    getReservedProperties,
+    updateReservationStatus
 }

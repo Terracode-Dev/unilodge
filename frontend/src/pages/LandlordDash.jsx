@@ -231,6 +231,7 @@ const AddProperty = () => {
 
 const Reservations = () => {
   const [properties, setProperties] = useState([]);
+  let [count, setCount] = useState(0);
 
   useEffect(() => {
     fetchProperties();
@@ -238,13 +239,27 @@ const Reservations = () => {
 
   const fetchProperties = async () => {
     try {
-      const response = await fetch('YOUR_API_ENDPOINT');
-      if (response.ok) {
-        const data = await response.json();
-        setProperties(data.properties);
-      } else {
-        throw new Error('Failed to fetch data');
-      }
+      if (count === 0) {
+      fetch(`http://localhost:3000/reserve/${userid}`)
+            .then(response => response.json())
+            .then(data => {
+              setProperties(data);
+              console.log("property list: ", data);
+              setCount(1);
+            })
+            .catch(error => console.error('Error fetching properties:', error));
+
+          }
+
+
+      // const response = await fetch(`http://localhost:3000/reserve/${userid}`);
+      // if (response.ok) {
+      //   const data = await response.json();
+      //   setProperties(data);
+      //   console.log("property list: ", data);
+      // } else {
+      //   throw new Error('Failed to fetch data');
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -254,13 +269,15 @@ const Reservations = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4 text-white">Reservations</h1>
       <div className="grid grid-cols-1 gap-4">
-        {/* {properties.map(property => (
-          <ReservationsCard key={property.id} property={property} />
-        ))} */}
-        <ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe' }} />
+        {properties.map(property => (
+          console.log("single property: ", property),
+          <ReservationsCard key={property.resID} property={property} />
+          //<ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', reservedBy: 'Jane Doe' }} />
+        ))}
+        {/* <ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 1', address: '123 Main St', reservedBy: 'John Doe' }} />
         <ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 2', address: '456 Elm St', reservedBy: 'Jane Doe' }} />
         <ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 3', address: '789 Oak St', reservedBy: 'John Smith' }} />
-        <ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', reservedBy: 'Jane Smith' }} />
+        <ReservationsCard property={{ thumbnailUrl:'https://via.placeholder.com/500', name: 'Property 4', address: '101 Pine St', reservedBy: 'Jane Smith' }} /> */}
       </div>
     </div>
   );
